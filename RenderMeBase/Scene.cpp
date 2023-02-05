@@ -1,6 +1,8 @@
 #include "Scene.h"
 
 
+using namespace RenderMe::Base;
+
 Scene::Scene()
 {
 
