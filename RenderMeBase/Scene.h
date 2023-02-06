@@ -2,7 +2,7 @@
 #include <iostream>
 #include <entt.hpp>
 #include "Entity.h"
-
+#include "ShadersManager.h"
 
 namespace RenderMe
 {
@@ -23,6 +23,7 @@ namespace RenderMe
 			Registry* getRegistry();
 		private:
 			Registry m_registry;
+			ShaderManager m_shadersManager;
 
 		};
 
