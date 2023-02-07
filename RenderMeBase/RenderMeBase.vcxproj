@@ -137,11 +137,17 @@
   <ItemGroup>
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="ShadersManager.cpp" />
+    <ClCompile Include="stb_image.cpp" />
+    <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="TexturesManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="ShadersManager.h" />
+    <ClInclude Include="stb_image.h" />
+    <ClInclude Include="Texture.h" />
+    <ClInclude Include="TexturesManager.h" />
     <ClInclude Include="TransformComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

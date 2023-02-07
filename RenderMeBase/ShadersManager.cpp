@@ -20,7 +20,7 @@ ShaderManager::~ShaderManager()
 }
 
 
-int ShaderManager::CompileShader(char* p_compileMessage,std::string p_shaderName, GLenum p_shaderType,std::string p_filePath)
+int ShaderManager::compileShader(char* p_compileMessage,std::string p_shaderName, GLenum p_shaderType,std::string p_filePath)
 {
 	unsigned int shader = glCreateShader(p_shaderType);
     //remeber to delete this after passing the source to opengl
@@ -41,7 +41,8 @@ int ShaderManager::CompileShader(char* p_compileMessage,std::string p_shaderName
         strcpy_s(source,sizeof(source), temp_source.c_str());
     }
 
-
+    //you can delete this if you want
+    sourceFile.close();
 
 	glShaderSource(shader, 1, &source, nullptr);
     delete[] source;

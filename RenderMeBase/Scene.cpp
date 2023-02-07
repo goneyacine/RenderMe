@@ -16,7 +16,7 @@ Scene::~Scene()
 }
 
 
-Registry* Scene::getRegistry()
+inline Registry* Scene::getRegistry()
 {
 	return &m_registry;
 }

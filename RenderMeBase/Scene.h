@@ -20,7 +20,7 @@ namespace RenderMe
 		public:
 			Scene();
 			~Scene();
-			Registry* getRegistry();
+			inline Registry* getRegistry();
 		private:
 			Registry m_registry;
 			ShaderManager m_shadersManager;
