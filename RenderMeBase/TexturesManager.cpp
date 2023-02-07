@@ -54,7 +54,7 @@ int  TexturesManager::addTexture(std::string p_filePath, std::string p_name)
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8,width,height, 0, GL_RGBA, GL_UNSIGNED_BYTE, temp_buffer);
 
 	glBindTexture(GL_TEXTURE_2D,0);
-
+	//adding the new texture to the textures map
 	m_textures[p_name] = Texture((unsigned int)width,(unsigned int)height,textureGL);
 
 	if (temp_buffer)
@@ -83,16 +83,14 @@ int  TexturesManager::addTexture(unsigned char* p_data, unsigned int p_width, un
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, p_width, p_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, p_data);
 
 	glBindTexture(GL_TEXTURE_2D, 0);
-
+	//adding the new texture to the textures map
 	m_textures[p_name] = Texture((unsigned int)p_width,(unsigned int)p_height,textureGL);
-
 
 	return 0;
 }
 
 
 inline Texture TexturesManager::getTexture(std::string p_name) 
-
 {
 	return m_textures[p_name];
 }
