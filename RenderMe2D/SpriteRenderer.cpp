@@ -18,13 +18,13 @@ SpriteRenderer::SpriteRenderer(RenderMe::Base::Texture p_texture)
 }
 
 
-SpriteRenderer::SpriteRenderer(RenderMe::Base::Texture p_texture,unsigned int p_PPU = 100)
+SpriteRenderer::SpriteRenderer(RenderMe::Base::Texture p_texture,unsigned int p_PPU)
 	: m_texture(p_texture),m_PPU(p_PPU)
 {
 	computeVertices();
 }
 
-SpriteRenderer::SpriteRenderer(RenderMe::Base::Texture p_texture,float* p_color, unsigned int p_PPU = 100)
+SpriteRenderer::SpriteRenderer(RenderMe::Base::Texture p_texture,float* p_color, unsigned int p_PPU)
 	:m_texture(p_texture),m_PPU(p_PPU)
 {
 	m_color[0] = p_color[0];
