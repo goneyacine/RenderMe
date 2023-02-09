@@ -15,8 +15,28 @@ Scene::~Scene()
 	m_registry.clear();
 }
 
-
-inline Registry* Scene::getRegistry()
+Entity Scene::addEntity()
 {
-	return &m_registry;
+    Entity entity = m_registry.create();
+	m_entities.push_back(entity);
+	return entity;
+}
+
+void Scene::removeEntity(Entity p_entity)
+{
+	m_registry.destroy(p_entity);
+	for (int i = 0; i < m_entities.size(); i++)
+	{
+		if (m_entities[i] == p_entity)
+		{
+			m_entities.erase(m_entities.begin() + i);
+			break;
+		}
+	}
+}
+
+
+inline std::vector<Entity> Scene::getEntities() const
+{
+	return m_entities;
 }

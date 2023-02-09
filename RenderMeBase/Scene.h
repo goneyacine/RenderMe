@@ -20,12 +20,30 @@ namespace RenderMe
 		public:
 			Scene();
 			~Scene();
-			inline Registry* getRegistry();
+		
+			Entity addEntity();
+			void removeEntity(Entity p_entity);
+			inline std::vector<Entity> getEntities() const;
+			template<typename T> T* getComponent(Entity p_entity);
 		private:
 			Registry m_registry;
+			std::vector<Entity> m_entities;
 			ShaderManager m_shadersManager;
 
 		};
+
+		template<typename T>
+		inline T* Scene::getComponent(Entity p_entity)
+		{
+			if (m_registry.all_of<T>(p_entity))
+			{
+				return &m_registry.get<T>(p_entity);
+			}
+			else
+			{
+				return nullptr;
+			}
+		}
 
 	}
 }
