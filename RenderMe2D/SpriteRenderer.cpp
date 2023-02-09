@@ -1,6 +1,5 @@
 #include "SpriteRenderer.h"
 
-
 using namespace RenderMe::RenderMe2D;
 
 
@@ -11,21 +10,21 @@ SpriteRenderer::SpriteRenderer()
 	computeVertices();
 }
 
-SpriteRenderer::SpriteRenderer(RenderMe::Base::Texture p_texture)
-	: m_texture(p_texture)
+SpriteRenderer::SpriteRenderer(RenderMe::Base::Texture p_texture,unsigned int p_shaderID)
+	: m_texture(p_texture),m_shaderID(p_shaderID)
 {
 	computeVertices();
 }
 
 
-SpriteRenderer::SpriteRenderer(RenderMe::Base::Texture p_texture,unsigned int p_PPU)
-	: m_texture(p_texture),m_PPU(p_PPU)
+SpriteRenderer::SpriteRenderer(RenderMe::Base::Texture p_texture,unsigned int p_shaderID,unsigned int p_PPU)
+	: m_texture(p_texture),m_shaderID(p_shaderID), m_PPU(p_PPU)
 {
 	computeVertices();
 }
 
-SpriteRenderer::SpriteRenderer(RenderMe::Base::Texture p_texture,float* p_color, unsigned int p_PPU)
-	:m_texture(p_texture),m_PPU(p_PPU)
+SpriteRenderer::SpriteRenderer(RenderMe::Base::Texture p_texture,float* p_color,unsigned int p_shaderID, unsigned int p_PPU)
+	:m_texture(p_texture),m_shaderID(p_shaderID), m_PPU(p_PPU)
 {
 	m_color[0] = p_color[0];
 	m_color[1] = p_color[1];
