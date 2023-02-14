@@ -19,17 +19,17 @@ Texture::~Texture()
 
 }
 
-inline unsigned int Texture::getWidth() const
+unsigned int Texture::getWidth() const
 {
 	return m_width;
 }
 
-inline unsigned int Texture::getHeight() const
+unsigned int Texture::getHeight() const
 {
 	return m_height;
 }
 
-inline unsigned int Texture::getGlTexture() const
+unsigned int Texture::getGlTexture() const
 {
 	return m_textureGL;
 }
