@@ -90,7 +90,7 @@ int  TexturesManager::addTexture(unsigned char* p_data, unsigned int p_width, un
 }
 
 
-inline Texture TexturesManager::getTexture(std::string p_name) 
+ Texture TexturesManager::getTexture(std::string p_name) 
 {
 	return m_textures[p_name];
 }

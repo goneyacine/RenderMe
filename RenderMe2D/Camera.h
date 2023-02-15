@@ -16,6 +16,7 @@ namespace RenderMe
 			Camera(RenderMe::Base::Scene* p_scene, float  p_aspectRatioX = 16,float p_aspectRatioY = 9,float p_x = 0, float p_y = 0,float p_angle = 0);
 			Camera(RenderMe::Base::Scene* p_scene, float p_aspectRatioX = 16, float p_aspectRatioY = 9,float p_orthographicSize = 10,float p_x = 0, float p_y = 0,float p_angle = 0);
 			~Camera();
+			void render();
 		private :
 			float m_x = 0;
 			float m_y = 0;
@@ -25,7 +26,7 @@ namespace RenderMe
 			float m_aspectRatioY = 9;
 			float m_orthographicSize = 10;
 
-			RenderMe::Base::Scene* m_scene;
+			RenderMe::Base::Scene* m_scene = nullptr;
 		};
 	}
 }

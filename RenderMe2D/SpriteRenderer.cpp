@@ -1,5 +1,5 @@
 #include "SpriteRenderer.h"
-
+#include "GL/glew.h"
 using namespace RenderMe::RenderMe2D;
 
 
@@ -7,24 +7,35 @@ using namespace RenderMe::RenderMe2D;
 SpriteRenderer::SpriteRenderer() 
 	:m_texture(RenderMe::Base::Texture())
 {
-	computeVertices();
+  computeVertices();
 }
 
-SpriteRenderer::SpriteRenderer(RenderMe::Base::Texture p_texture,unsigned int p_shaderID)
-	: m_texture(p_texture),m_shaderID(p_shaderID)
+SpriteRenderer::SpriteRenderer(RenderMe::Base::Texture p_texture, unsigned int p_vertexShaderID, unsigned int p_fragmentShaderID)
+	: m_texture(p_texture)
+{
+	computeVertices();
+	/*
+	m_glProgramID = glCreateProgram();
+
+	glAttachShader(m_glProgramID, p_vertexShaderID);
+	glAttachShader(m_glProgramID, p_fragmentShaderID);
+
+
+	glLinkProgram(m_glProgramID);
+	*/
+	//TODO : add some error hadling here to check for programm linking errors
+
+}
+
+
+SpriteRenderer::SpriteRenderer(RenderMe::Base::Texture p_texture, unsigned int p_vertexShaderID , unsigned int p_fragmentShaderID, unsigned int p_PPU)
+	: m_texture(p_texture), m_PPU(p_PPU)
 {
 	computeVertices();
 }
 
-
-SpriteRenderer::SpriteRenderer(RenderMe::Base::Texture p_texture,unsigned int p_shaderID,unsigned int p_PPU)
-	: m_texture(p_texture),m_shaderID(p_shaderID), m_PPU(p_PPU)
-{
-	computeVertices();
-}
-
-SpriteRenderer::SpriteRenderer(RenderMe::Base::Texture p_texture,float* p_color,unsigned int p_shaderID, unsigned int p_PPU)
-	:m_texture(p_texture),m_shaderID(p_shaderID), m_PPU(p_PPU)
+SpriteRenderer::SpriteRenderer(RenderMe::Base::Texture p_texture,float* p_color, unsigned int p_vertexShaderID, unsigned int p_fragmentShaderID, unsigned int p_PPU)
+	:m_texture(p_texture), m_PPU(p_PPU)
 {
 	m_color[0] = p_color[0];
 	m_color[1] = p_color[1];
@@ -45,7 +56,7 @@ void SpriteRenderer::setPixelsPerUnit(unsigned int p_PPU)
 	computeVertices();
 }
 
-inline unsigned int SpriteRenderer::getPixelsPerUnit() const
+ unsigned int SpriteRenderer::getPixelsPerUnit() const
 {
 	return m_PPU;
 }
@@ -54,12 +65,12 @@ inline unsigned int SpriteRenderer::getPixelsPerUnit() const
 /// so each vertex has 8 floats of data
 /// </summary>
 /// <returns></returns>
-inline std::vector<float> SpriteRenderer::getVertices() const
+ std::vector<float> SpriteRenderer::getVertices() const
 {
 	return m_vertices;
 }
 
-inline std::vector<unsigned int> SpriteRenderer::getIndices() const
+ std::vector<unsigned int> SpriteRenderer::getIndices() const
 {
 	return m_indices;
 }
@@ -71,18 +82,21 @@ void SpriteRenderer::setTexture(RenderMe::Base::Texture p_texture)
 	computeVertices();
 }
 
-inline RenderMe::Base::Texture SpriteRenderer::getTexture() const
+ RenderMe::Base::Texture SpriteRenderer::getTexture() const
 {
 	return m_texture;
 }
 
 void SpriteRenderer::computeVertices()
 {
+	if (&m_texture == nullptr)
+		return;
+
 	std::vector<float> vertices(32);
 
 	//ws stands for world space
-	float ws_Width= m_texture.getWidth() / m_PPU;
-	float ws_Height= m_texture.getHeight() / m_PPU;
+	float ws_Width= (float)m_texture.getWidth() / m_PPU;
+	float ws_Height= (float)m_texture.getHeight() / m_PPU;
 
 	//setting up position data
 	 //top left vertex

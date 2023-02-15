@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="other">
+      <UniqueIdentifier>{5bded84f-5956-4ac9-bea2-0e1df5762e17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="other\stb">
+      <UniqueIdentifier>{f709f7bc-f8a2-49ba-aff0-78614f851ea7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -21,6 +27,9 @@
     <ClInclude Include="SpriteRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\RenderMeBase\stb_image.h">
+      <Filter>other\stb</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp">
@@ -28,6 +37,9 @@
     </ClCompile>
     <ClCompile Include="SpriteRenderer.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\RenderMeBase\stb_image.cpp">
+      <Filter>other\stb</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -25,6 +25,7 @@ namespace RenderMe
 			void removeEntity(Entity p_entity);
 			inline std::vector<Entity> getEntities() const;
 			template<typename T> T* getComponent(Entity p_entity);
+			template<typename T> void addComponent(Entity p_entity, T p_component);
 		private:
 			Registry m_registry;
 			std::vector<Entity> m_entities;
@@ -43,6 +44,14 @@ namespace RenderMe
 			{
 				return nullptr;
 			}
+		}
+
+		template<typename T>
+		inline void Scene::addComponent(Entity p_entity, T p_component)
+		{
+		 m_registry.emplace_or_replace<T>(p_entity);
+		 *getComponent<T>(p_entity) = p_component;
+
 		}
 
 	}

@@ -1,7 +1,7 @@
-#include "ShadersManager.h"
 #include <GL/glew.h>
 #include <fstream>
 #include <string>
+#include "ShadersManager.h"
 using namespace RenderMe::Base;
 
 
@@ -13,15 +13,19 @@ ShaderManager::ShaderManager()
 
 ShaderManager::~ShaderManager()
 {
+    /*
     for (auto const& [key, val] : m_shaders)
     {
         glDeleteShader(val.first);
     }
+
+    */
 }
 
 
 int ShaderManager::compileShader(char* p_compileMessage,std::string p_shaderName, GLenum p_shaderType,std::string p_filePath)
 {
+    /*
 	unsigned int shader = glCreateShader(p_shaderType);
     //remeber to delete this after passing the source to opengl
     char* source;
@@ -69,6 +73,7 @@ int ShaderManager::compileShader(char* p_compileMessage,std::string p_shaderName
 
     //assigning shader's name and object to the map
     m_shaders[p_shaderName] = std::pair<unsigned int,GLenum>(shader,p_shaderType);
-
+    */
 	return 0;
+  
 }

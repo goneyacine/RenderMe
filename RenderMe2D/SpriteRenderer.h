@@ -11,15 +11,15 @@ namespace RenderMe
 		{
 		public :
 			SpriteRenderer();
-			SpriteRenderer(RenderMe::Base::Texture p_texture, unsigned int p_shaderID = 0);
+			SpriteRenderer(RenderMe::Base::Texture p_texture, unsigned int p_vertexShader,unsigned int p_fragementShaderID);
 			//PPU stands for pixels per unit (default value is 100)
-			SpriteRenderer(RenderMe::Base::Texture p_texture, unsigned int p_shaderID = 0,unsigned int p_PPU = 100);
+			SpriteRenderer(RenderMe::Base::Texture p_texture, unsigned int p_vertexShaderID,unsigned int p_fragmentShaderID,unsigned int p_PPU = 100);
 			//PPU stands for pixels per unit (default value) + the color should be in RGBA format and should be normalized(between 0 and 1)
-			SpriteRenderer(RenderMe::Base::Texture p_texture,float* p_color,unsigned int p_shaderID = 0, unsigned int p_PPU = 100);
+			SpriteRenderer(RenderMe::Base::Texture p_texture,float* p_color, unsigned int p_vertexShaderID, unsigned int p_fragmentShaderID, unsigned int p_PPU = 100);
 			~SpriteRenderer();
 
 			void setPixelsPerUnit(unsigned int p_PPU);
-			inline unsigned int getPixelsPerUnit() const;
+			 unsigned int getPixelsPerUnit() const;
 
 			inline std::vector<float> getVertices() const;
 			inline std::vector<unsigned int> getIndices()const;
@@ -38,7 +38,7 @@ namespace RenderMe
 			//PPU stands for pixels per unit
 			unsigned int m_PPU = 100;
 
-			unsigned int m_shaderID = 0;
+			unsigned int m_glProgramID = 0;
 
 			//texture uniforms data
 			std::vector<RenderMe::Base::Uniform1f> m_uniforms_1f;

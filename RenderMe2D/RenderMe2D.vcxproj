@@ -129,10 +129,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\RenderMeBase\stb_image.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="SpriteRenderer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\RenderMeBase\stb_image.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="SpriteRenderer.cpp" />
   </ItemGroup>

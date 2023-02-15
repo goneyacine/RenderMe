@@ -13,5 +13,21 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="other">
+      <UniqueIdentifier>{20f483dd-94c8-4f5e-bc93-4f46aaa40233}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="other\stb">
+      <UniqueIdentifier>{38d0dcb1-46c3-48c5-85c8-86ab8358de23}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\RenderMeBase\stb_image.cpp">
+      <Filter>other\stb</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\RenderMeBase\stb_image.h">
+      <Filter>other\stb</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

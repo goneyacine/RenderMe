@@ -36,7 +36,7 @@ void Scene::removeEntity(Entity p_entity)
 }
 
 
-inline std::vector<Entity> Scene::getEntities() const
+ std::vector<Entity> Scene::getEntities() const
 {
 	return m_entities;
 }
