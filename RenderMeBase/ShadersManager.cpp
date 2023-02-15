@@ -13,19 +13,18 @@ ShaderManager::ShaderManager()
 
 ShaderManager::~ShaderManager()
 {
-    /*
+    
     for (auto const& [key, val] : m_shaders)
     {
         glDeleteShader(val.first);
     }
 
-    */
 }
 
 
-int ShaderManager::compileShader(char* p_compileMessage,std::string p_shaderName, GLenum p_shaderType,std::string p_filePath)
+int ShaderManager::compileShader_by_filePath(char* p_compileMessage,std::string p_shaderName, GLenum p_shaderType,std::string p_filePath)
 {
-    /*
+ 
 	unsigned int shader = glCreateShader(p_shaderType);
     //remeber to delete this after passing the source to opengl
     char* source;
@@ -42,7 +41,11 @@ int ShaderManager::compileShader(char* p_compileMessage,std::string p_shaderName
             temp_source += temp_line;
         }
         source = new char[temp_source.length() + 1];
-        strcpy_s(source,sizeof(source), temp_source.c_str());
+      strcpy_s(source, temp_source.length() + 1, temp_source.c_str());
+    }
+    else
+    {
+        return -1;
     }
 
     //you can delete this if you want
@@ -73,7 +76,48 @@ int ShaderManager::compileShader(char* p_compileMessage,std::string p_shaderName
 
     //assigning shader's name and object to the map
     m_shaders[p_shaderName] = std::pair<unsigned int,GLenum>(shader,p_shaderType);
-    */
+ 
 	return 0;
   
+}
+
+
+int ShaderManager::compileShader_by_source(char* p_compileMessage, std::string p_shaderName, GLenum p_shaderType, std::string p_source)
+{
+
+    unsigned int shader = glCreateShader(p_shaderType);
+    //remeber to delete this after passing the source to opengl
+    char* source = new char[p_source.length() + 1];
+        strcpy_s(source, p_source.length() + 1, p_source.c_str());
+
+
+   
+    glShaderSource(shader, 1, &source, nullptr);
+    delete[] source;
+    glCompileShader(shader);
+
+    int result;
+
+
+    glGetShaderiv(shader, GL_COMPILE_STATUS, &result);
+
+    //if the compiling process faild 
+    if (!result)
+    {
+        int length;
+        glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &length);
+
+        p_compileMessage = (char*)malloc(length * sizeof(char));
+
+        glGetShaderInfoLog(shader, length, &length, p_compileMessage);
+        //here we are deleting the shader because the compiling process failed so there is no need for it 
+        glDeleteShader(shader);
+        return -1;
+    }
+
+    //assigning shader's name and object to the map
+    m_shaders[p_shaderName] = std::pair<unsigned int, GLenum>(shader, p_shaderType);
+
+    return 0;
+
 }
