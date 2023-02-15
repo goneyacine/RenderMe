@@ -46,14 +46,24 @@ void Camera::render()
 
 	glClear(GL_COLOR_BUFFER_BIT);  //clearing the frame buffer 
 
+
 	unsigned int vertexBuffer,indexBuffer;
 
 	glGenBuffers(1, &vertexBuffer);
 	glGenBuffers(1, &indexBuffer);
 
+	//float color_offset = (sizeof(float) * 2);
+	//float texture_coordinate_offset = (sizeof(float) * 4);
+
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);
+	//color attrib
+	//glEnableVertexAttribArray(1);
+	//glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(float) * 8, &color_offset);
+	//texture coordinate attrib
+	//glEnableVertexAttribArray(2);
+	//glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 8, &texture_coordinate_offset);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
 
@@ -66,9 +76,9 @@ void Camera::render()
 
 	std::vector<RenderMe::Base::Entity> entities = m_scene->getEntities();
 
-	float verticesData[32];
 
-	float indicesData[6] = { 0, 1, 2, 2, 3, 0 };
+	float verticesData[8];
+	unsigned int indicesData[6] = { 0, 1, 2, 2, 3, 0 };
 
 	for (auto entity : entities)
 	{
@@ -76,15 +86,15 @@ void Camera::render()
 		SpriteRenderer* spriteRenderer = m_scene->getComponent<SpriteRenderer>(entity);
 
 		if (transform == nullptr || spriteRenderer == nullptr)
-			continue;
+		continue;
 
 		//applying rotation offsets 
 		// TODO : implement camera rotation because object rotation is only what's implemented 
 		  //top left vertex
 
-		double cos_z_rotation = cos(transform->z_rotation);
-		double sin_z_rotation = sin(transform->z_rotation);
-
+		double cos_z_rotation = cos(transform->z_rotation * 3.14159265359f / 180);
+		double sin_z_rotation = sin(transform->z_rotation * 3.14159265359f / 180);
+		/*
 		verticesData[0] = spriteRenderer->getVertices()[0] * cos_z_rotation - spriteRenderer->getVertices()[1] * sin_z_rotation;
 		verticesData[1] = spriteRenderer->getVertices()[1] * cos_z_rotation + spriteRenderer->getVertices()[0] * sin_z_rotation;
 
@@ -114,8 +124,56 @@ void Camera::render()
 		verticesData[24] = verticesData[24] + transform->x_position - m_x;
 		verticesData[25] = verticesData[25] + transform->y_position - m_y;
 
-		glBufferData(GL_ARRAY_BUFFER, sizeof(verticesData), verticesData, GL_STATIC_DRAW);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicesData), indicesData, GL_STATIC_DRAW);
+
+
+		*/
+
+		verticesData[0] = (-0.5f) * cos_z_rotation - (-0.5f) * sin_z_rotation;
+		verticesData[1] = (-0.5f) * cos_z_rotation + (-0.5f) * sin_z_rotation;
+
+		//buttom left vertex
+		verticesData[2] = 0.5f * cos_z_rotation - (-0.5f) * sin_z_rotation;
+		verticesData[3] = (-0.5f) * cos_z_rotation + (0.5f) * sin_z_rotation;
+
+		//buttom right vertex
+		verticesData[4] = 0.5f * cos_z_rotation - 0.5f * sin_z_rotation;
+		verticesData[5] = 0.5f * cos_z_rotation + 0.5f * sin_z_rotation;
+
+		//top right vertex
+		verticesData[6] = (- 0.5f)* cos_z_rotation - 0.5f * sin_z_rotation;
+		verticesData[7] =  0.5f *  cos_z_rotation +  (- 0.5f) * sin_z_rotation;
+
+		//applying position offsets 
+		 //top left vertex
+		verticesData[0] = verticesData[0] + transform->x_position - m_x;
+		verticesData[1] = verticesData[1] + transform->y_position - m_y;
+		//buttom left 	 
+		verticesData[2] = verticesData[2] + transform->x_position - m_x;
+		verticesData[3] = verticesData[3] + transform->y_position - m_y;
+		//buttom right 	  
+		verticesData[4] = verticesData[4] + transform->x_position - m_x;
+		verticesData[5] = verticesData[5] + transform->y_position - m_y;
+		//top right 	  
+		verticesData[6] = verticesData[6] + transform->x_position - m_x;
+		verticesData[7] = verticesData[7] + transform->y_position - m_y;
+
+
+
+		verticesData[0] = verticesData[0] * transform->x_scale * spriteRenderer->getTexture().getWidth() / spriteRenderer->getPixelsPerUnit();
+		verticesData[1] = verticesData[1] * transform->y_scale * spriteRenderer->getTexture().getHeight() / spriteRenderer->getPixelsPerUnit();
+
+		verticesData[2] = verticesData[2] * transform->x_scale * spriteRenderer->getTexture().getWidth() / spriteRenderer->getPixelsPerUnit();
+		verticesData[3] = verticesData[3] * transform->y_scale * spriteRenderer->getTexture().getHeight() / spriteRenderer->getPixelsPerUnit();
+
+		verticesData[4] = verticesData[4] * transform->x_scale * spriteRenderer->getTexture().getWidth() / spriteRenderer->getPixelsPerUnit();
+		verticesData[5] = verticesData[5] * transform->y_scale * spriteRenderer->getTexture().getHeight() / spriteRenderer->getPixelsPerUnit();
+		
+		verticesData[6] = verticesData[6] * transform->x_scale * spriteRenderer->getTexture().getWidth() / spriteRenderer->getPixelsPerUnit();
+		verticesData[7] = verticesData[7] * transform->y_scale * spriteRenderer->getTexture().getHeight() / spriteRenderer->getPixelsPerUnit();
+
+
+		glBufferData(GL_ARRAY_BUFFER, sizeof(verticesData), verticesData, GL_DYNAMIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicesData), indicesData, GL_DYNAMIC_DRAW);
 
 
 		glDrawElements(GL_TRIANGLES,6, GL_UNSIGNED_INT,0);
@@ -127,8 +185,7 @@ void Camera::render()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,0); //unbinding the index buffer
 
 
-	delete[] verticesData;
-	delete[] indicesData;
+;
 	glDeleteBuffers(1, &vertexBuffer);
 	glDeleteBuffers(1, &indexBuffer);
 

@@ -5,7 +5,7 @@ using namespace RenderMe::Base;
 
 Scene::Scene()
 {
-
+	m_shadersManager = ShaderManager();
 }
 
 Scene::~Scene()
@@ -33,6 +33,11 @@ void Scene::removeEntity(Entity p_entity)
 			break;
 		}
 	}
+}
+
+ShaderManager* RenderMe::Base::Scene::getShadersManager() 
+{
+	return &m_shadersManager;
 }
 
 

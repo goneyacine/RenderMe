@@ -23,7 +23,8 @@ namespace RenderMe
 		
 			Entity addEntity();
 			void removeEntity(Entity p_entity);
-			inline std::vector<Entity> getEntities() const;
+			ShaderManager* getShadersManager();
+			std::vector<Entity> getEntities() const;
 			template<typename T> T* getComponent(Entity p_entity);
 			template<typename T> void addComponent(Entity p_entity, T p_component);
 		private:
