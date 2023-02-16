@@ -9,7 +9,7 @@ namespace RenderMe
 	{
 		class SpriteRenderer
 		{
-		public :
+		public :			
 			SpriteRenderer();
 			SpriteRenderer(RenderMe::Base::Texture p_texture, unsigned int p_vertexShader,unsigned int p_fragementShaderID);
 			//PPU stands for pixels per unit (default value is 100)
@@ -21,11 +21,30 @@ namespace RenderMe
 			void setPixelsPerUnit(unsigned int p_PPU);
 			 unsigned int getPixelsPerUnit() const;
 
-			inline std::vector<float> getVertices() const;
-			inline std::vector<unsigned int> getIndices()const;
-
+			 std::vector<float> getVertices() const;
+			 std::vector<unsigned int> getIndices()const;
+			 RenderMe::Base::Texture getTexture() const;
+			 unsigned int getShaderProgram() const;
 			void setTexture(RenderMe::Base::Texture p_texture);
-			inline RenderMe::Base::Texture getTexture() const;
+
+
+
+			//texture uniforms data
+			std::vector<RenderMe::Base::Uniform1f> g_uniforms_1f;
+			std::vector<RenderMe::Base::Uniform2f> g_uniforms_2f;
+			std::vector<RenderMe::Base::Uniform3f> g_uniforms_3f;
+			std::vector<RenderMe::Base::Uniform4f> g_uniforms_4f;
+
+
+			std::vector<RenderMe::Base::Uniform1i> g_uniforms_1i;
+			std::vector<RenderMe::Base::Uniform2i> g_uniforms_2i;
+			std::vector<RenderMe::Base::Uniform3i> g_uniforms_3i;
+			std::vector<RenderMe::Base::Uniform4i> g_uniforms_4i;
+
+			std::vector<RenderMe::Base::Uniform1ui> g_uniforms_1ui;
+			std::vector<RenderMe::Base::Uniform2ui> g_uniforms_2ui;
+			std::vector<RenderMe::Base::Uniform3ui> g_uniforms_3ui;
+			std::vector<RenderMe::Base::Uniform4ui> g_uniforms_4ui;
 
 
 		private : 
@@ -40,22 +59,6 @@ namespace RenderMe
 
 			unsigned int m_glProgramID = 0;
 
-			//texture uniforms data
-			std::vector<RenderMe::Base::Uniform1f> m_uniforms_1f;
-			std::vector<RenderMe::Base::Uniform2f> m_uniforms_2f;
-			std::vector<RenderMe::Base::Uniform3f> m_uniforms_3f;
-			std::vector<RenderMe::Base::Uniform4f> m_uniforms_4f;
-
-
-			std::vector<RenderMe::Base::Uniform1i> m_uniforms_1i;
-			std::vector<RenderMe::Base::Uniform2i> m_uniforms_2i;
-			std::vector<RenderMe::Base::Uniform3i> m_uniforms_3i;
-			std::vector<RenderMe::Base::Uniform4i> m_uniforms_4i;
-
-			std::vector<RenderMe::Base::Uniform1ui> m_uniforms_1ui;
-			std::vector<RenderMe::Base::Uniform2ui> m_uniforms_2ui;
-			std::vector<RenderMe::Base::Uniform3ui> m_uniforms_3ui;
-			std::vector<RenderMe::Base::Uniform4ui> m_uniforms_4ui;
 		};
 	}
 }

@@ -4,17 +4,16 @@ using namespace RenderMe::RenderMe2D;
 
 
 
-SpriteRenderer::SpriteRenderer() 
-	:m_texture(RenderMe::Base::Texture())
+
+SpriteRenderer::SpriteRenderer()
 {
-  computeVertices();
+
 }
 
 SpriteRenderer::SpriteRenderer(RenderMe::Base::Texture p_texture, unsigned int p_vertexShaderID, unsigned int p_fragmentShaderID)
 	: m_texture(p_texture)
 {
 	computeVertices();
-	/*
 	m_glProgramID = glCreateProgram();
 
 	glAttachShader(m_glProgramID, p_vertexShaderID);
@@ -22,7 +21,7 @@ SpriteRenderer::SpriteRenderer(RenderMe::Base::Texture p_texture, unsigned int p
 
 
 	glLinkProgram(m_glProgramID);
-	*/
+	
 	//TODO : add some error hadling here to check for programm linking errors
 
 }
@@ -32,17 +31,40 @@ SpriteRenderer::SpriteRenderer(RenderMe::Base::Texture p_texture, unsigned int p
 	: m_texture(p_texture), m_PPU(p_PPU)
 {
 	computeVertices();
+	m_glProgramID = glCreateProgram();
+
+	glAttachShader(m_glProgramID, p_vertexShaderID);
+	glAttachShader(m_glProgramID, p_fragmentShaderID);
+
+
+	glLinkProgram(m_glProgramID);
+	//TODO : add some error hadling here to check for programm linking errors
 }
 
 SpriteRenderer::SpriteRenderer(RenderMe::Base::Texture p_texture,float* p_color, unsigned int p_vertexShaderID, unsigned int p_fragmentShaderID, unsigned int p_PPU)
 	:m_texture(p_texture), m_PPU(p_PPU)
 {
+	/*
 	m_color[0] = p_color[0];
 	m_color[1] = p_color[1];
 	m_color[2] = p_color[2];
 	m_color[3] = p_color[3];
+	*/
+	m_color[0] = 1;
+	m_color[1] = 0;
+	m_color[2] = 1;
+	m_color[3] = 1;
 	computeVertices();
 
+	m_glProgramID = glCreateProgram();
+
+	glAttachShader(m_glProgramID, p_vertexShaderID);
+	glAttachShader(m_glProgramID, p_fragmentShaderID);
+
+
+	glLinkProgram(m_glProgramID);
+
+	//TODO : add some error hadling here to check for programm linking errors
 }
 
 SpriteRenderer::~SpriteRenderer()
@@ -150,4 +172,9 @@ void SpriteRenderer::computeVertices()
 	vertices[31] = 0;
 
 	m_vertices = vertices;
+}
+
+unsigned int SpriteRenderer::getShaderProgram() const 
+{
+	return m_glProgramID;
 }
