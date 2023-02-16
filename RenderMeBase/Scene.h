@@ -26,6 +26,7 @@ namespace RenderMe
 			ShaderManager* getShadersManager();
 			std::vector<Entity> getEntities() const;
 			template<typename T> T* getComponent(Entity p_entity);
+			//NOTE : if entity already has that component it will replace it with the new one
 			template<typename T> void addComponent(Entity p_entity, T p_component);
 		private:
 			Registry m_registry;
