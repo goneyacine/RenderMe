@@ -104,13 +104,19 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\glew\include ;$(SolutionDir)/Dependencies\entt\include;$(SolutionDir)/RenderMeBase</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\glm\gtx;$(SolutionDir)Dependencies\glm\simd;$(SolutionDir)Dependencies\glm\gtc;$(SolutionDir)Dependencies\glew\ext;$(SolutionDir)\Dependencies\glm\detail;$(SolutionDir)Dependencies\glew\include;$(SolutionDir)/Dependencies\entt\include;$(SolutionDir)/RenderMeBase;$(SolutionDir)Dependencies\glm</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalDependencies>glew32.lib</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\glew\lib\Release\x64</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -132,6 +138,7 @@
     <ClInclude Include="..\RenderMeBase\stb_image.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="SpriteRenderer.h" />
+    <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\RenderMeBase\stb_image.cpp" />

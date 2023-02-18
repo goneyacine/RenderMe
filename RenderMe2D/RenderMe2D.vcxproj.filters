@@ -30,6 +30,9 @@
     <ClInclude Include="..\RenderMeBase\stb_image.h">
       <Filter>other\stb</Filter>
     </ClInclude>
+    <ClInclude Include="Vertex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp">

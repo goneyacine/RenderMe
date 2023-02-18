@@ -135,6 +135,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ErrorHandler.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="ShadersManager.cpp" />
     <ClCompile Include="stb_image.cpp" />
@@ -143,6 +144,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="ErrorHandler.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="ShadersManager.h" />
     <ClInclude Include="stb_image.h" />

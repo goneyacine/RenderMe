@@ -2,6 +2,7 @@
 #include <vector>
 #include "Texture.h"
 #include "Uniforms.h"
+#include "Vertex.h"
 
 namespace RenderMe
 {
@@ -21,7 +22,7 @@ namespace RenderMe
 			void setPixelsPerUnit(unsigned int p_PPU);
 			 unsigned int getPixelsPerUnit() const;
 
-			 std::vector<float> getVertices() const;
+			 std::vector<Vertex> getVertices() const;
 			 std::vector<unsigned int> getIndices()const;
 			 RenderMe::Base::Texture getTexture() const;
 			 unsigned int getShaderProgram() const;
@@ -50,7 +51,7 @@ namespace RenderMe
 		private : 
 
 			void computeVertices();
-			std::vector<float> m_vertices;
+			std::vector<Vertex> m_vertices;
 			std::vector<unsigned int> m_indices = { 0, 1, 2, 2, 3, 0 };
 			float m_color[4] = {0,0,0,1};
 			RenderMe::Base::Texture m_texture;
