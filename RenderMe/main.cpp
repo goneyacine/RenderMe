@@ -44,7 +44,7 @@ int main()
     SpriteRenderer spr = SpriteRenderer(t,vertexShader,fragmentShader,100);
     scene.addComponent<TransformComponent>(entity, tran);
     scene.addComponent<SpriteRenderer>(entity, spr);
-    Camera cam = Camera(&scene,0,0,0,0,0,0);
+    Camera cam = Camera(&scene,,0,0,0,0,0);
     
 
     while (!glfwWindowShouldClose(window))

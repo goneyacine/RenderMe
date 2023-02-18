@@ -9,6 +9,8 @@
 #include "ErrorHandler.h"
 #include "Vertex.h"
 
+#define DEG_TO_RAD(x) x * 3.14159265359f / 180
+
 using namespace RenderMe::RenderMe2D;
 using namespace RenderMe::Base;
 
@@ -94,7 +96,10 @@ void Camera::render()
 
 
 	//computing projection view matrix here ------------------------------------
-	glm::mat4 projectionMatrix = glm::ortho(-1,1,-1,1);
+	float cam_x_size = m_orthographicSize * m_aspectRatioX / std::max(m_aspectRatioX, m_aspectRatioY);
+	float cam_y_size = m_orthographicSize * m_aspectRatioY / std::max(m_aspectRatioX, m_aspectRatioY);
+
+	glm::mat4 projectionMatrix = glm::ortho(-cam_x_size / 2, cam_x_size / 2, -cam_y_size / 2, cam_y_size / 2);
 
 
 	for (auto entity : entities)
@@ -102,6 +107,12 @@ void Camera::render()
 
 		TransformComponent* transform = m_scene->getComponent<TransformComponent>(entity);
 		SpriteRenderer* spriteRenderer = m_scene->getComponent<SpriteRenderer>(entity);
+
+		//model view projection matrix
+		glm::mat4 mvp = glm::mat4(1);
+		mvp = glm::translate(mvp, glm::vec3(transform->x_position - m_x, transform->y_position - m_y, 1));
+		mvp = glm::rotate(mvp, DEG_TO_RAD(transform->z_rotation - m_angle), glm::vec3(0, 0, 1));
+		mvp = glm::scale(mvp, glm::vec3(transform->x_scale, transform->y_scale, 1));
 
 		for (int i = 0; i < spriteRenderer->getVertices().size(); i++)
 			vertices[i] = spriteRenderer->getVertices()[i];
@@ -115,101 +126,58 @@ void Camera::render()
 
 			//sending projection view matrix data to the gpu -------------------------------
 			GL_CALL(glUniformMatrix4fv(glGetUniformLocation(spriteRenderer->getShaderProgram(), "projectionMatrix"), 1, GL_FALSE, glm::value_ptr(projectionMatrix)))
+			GL_CALL(glUniformMatrix4fv(glGetUniformLocation(spriteRenderer->getShaderProgram(), "mvp"), 1, GL_FALSE, glm::value_ptr(mvp)))
 
 			//iterating through all the uniforms data in the sprite renderer and pass it to the gpu ----------------
 
-			/*
+
 			//uniform1f
 			for (auto uniform : spriteRenderer->g_uniforms_1f)
 				glUniform1f(glGetUniformLocation(spriteRenderer->getShaderProgram(), uniform.name.c_str()), uniform.value1);
-			//uniform2f
-			for (auto uniform : spriteRenderer->g_uniforms_2f)
-				glUniform2f(glGetUniformLocation(spriteRenderer->getShaderProgram(), uniform.name.c_str()), uniform.value1, uniform.value2);
+		//uniform2f
+		for (auto uniform : spriteRenderer->g_uniforms_2f)
+			glUniform2f(glGetUniformLocation(spriteRenderer->getShaderProgram(), uniform.name.c_str()), uniform.value1, uniform.value2);
 
-			//uniform3f
-			for (auto uniform : spriteRenderer->g_uniforms_3f)
-				glUniform3f(glGetUniformLocation(spriteRenderer->getShaderProgram(), uniform.name.c_str()), uniform.value1, uniform.value2,uniform.value3);
+		//uniform3f
+		for (auto uniform : spriteRenderer->g_uniforms_3f)
+			glUniform3f(glGetUniformLocation(spriteRenderer->getShaderProgram(), uniform.name.c_str()), uniform.value1, uniform.value2, uniform.value3);
 
-			//uniform4f
-			for (auto uniform : spriteRenderer->g_uniforms_4f)
-				glUniform4f(glGetUniformLocation(spriteRenderer->getShaderProgram(), uniform.name.c_str()), uniform.value1, uniform.value2,uniform.value3,uniform.value4);
-
-
-			//uniform1i
-			for (auto uniform : spriteRenderer->g_uniforms_1i)
-				glUniform1i(glGetUniformLocation(spriteRenderer->getShaderProgram(), uniform.name.c_str()), uniform.value1);
-
-			//uniform2i
-			for (auto uniform : spriteRenderer->g_uniforms_2i)
-				glUniform2i(glGetUniformLocation(spriteRenderer->getShaderProgram(), uniform.name.c_str()), uniform.value1, uniform.value2);
-			//uniform3i
-			for (auto uniform : spriteRenderer->g_uniforms_3i)
-				glUniform3i(glGetUniformLocation(spriteRenderer->getShaderProgram(), uniform.name.c_str()), uniform.value1, uniform.value2, uniform.value3);
-			//uniform4i
-			for (auto uniform : spriteRenderer->g_uniforms_4i)
-				glUniform4i(glGetUniformLocation(spriteRenderer->getShaderProgram(), uniform.name.c_str()), uniform.value1, uniform.value2, uniform.value3, uniform.value4);
+		//uniform4f
+		for (auto uniform : spriteRenderer->g_uniforms_4f)
+			glUniform4f(glGetUniformLocation(spriteRenderer->getShaderProgram(), uniform.name.c_str()), uniform.value1, uniform.value2, uniform.value3, uniform.value4);
 
 
+		//uniform1i
+		for (auto uniform : spriteRenderer->g_uniforms_1i)
+			glUniform1i(glGetUniformLocation(spriteRenderer->getShaderProgram(), uniform.name.c_str()), uniform.value1);
 
-			//uniform1ui
-			for (auto uniform : spriteRenderer->g_uniforms_1ui)
-				glUniform1ui(glGetUniformLocation(spriteRenderer->getShaderProgram(), uniform.name.c_str()), uniform.value1);
-
-			//uniform2ui
-			for (auto uniform : spriteRenderer->g_uniforms_2ui)
-				glUniform2ui(glGetUniformLocation(spriteRenderer->getShaderProgram(), uniform.name.c_str()), uniform.value1, uniform.value2);
-
-			//uniform3ui
-			for (auto uniform : spriteRenderer->g_uniforms_3ui)
-				glUniform3ui(glGetUniformLocation(spriteRenderer->getShaderProgram(), uniform.name.c_str()), uniform.value1, uniform.value2, uniform.value3);
-
-			//uniform4ui
-			for (auto uniform : spriteRenderer->g_uniforms_4ui)
-				glUniform4ui(glGetUniformLocation(spriteRenderer->getShaderProgram(), uniform.name.c_str()), uniform.value1, uniform.value2, uniform.value3, uniform.value4);
-			*/
+		//uniform2i
+		for (auto uniform : spriteRenderer->g_uniforms_2i)
+			glUniform2i(glGetUniformLocation(spriteRenderer->getShaderProgram(), uniform.name.c_str()), uniform.value1, uniform.value2);
+		//uniform3i
+		for (auto uniform : spriteRenderer->g_uniforms_3i)
+			glUniform3i(glGetUniformLocation(spriteRenderer->getShaderProgram(), uniform.name.c_str()), uniform.value1, uniform.value2, uniform.value3);
+		//uniform4i
+		for (auto uniform : spriteRenderer->g_uniforms_4i)
+			glUniform4i(glGetUniformLocation(spriteRenderer->getShaderProgram(), uniform.name.c_str()), uniform.value1, uniform.value2, uniform.value3, uniform.value4);
 
 
 
+		//uniform1ui
+		for (auto uniform : spriteRenderer->g_uniforms_1ui)
+			glUniform1ui(glGetUniformLocation(spriteRenderer->getShaderProgram(), uniform.name.c_str()), uniform.value1);
 
+		//uniform2ui
+		for (auto uniform : spriteRenderer->g_uniforms_2ui)
+			glUniform2ui(glGetUniformLocation(spriteRenderer->getShaderProgram(), uniform.name.c_str()), uniform.value1, uniform.value2);
 
-			//applying rotation offsets 
-			// TODO : implement camera rotation because object rotation is only what's implemented 
-			  //top left vertex
+		//uniform3ui
+		for (auto uniform : spriteRenderer->g_uniforms_3ui)
+			glUniform3ui(glGetUniformLocation(spriteRenderer->getShaderProgram(), uniform.name.c_str()), uniform.value1, uniform.value2, uniform.value3);
 
-
-
-			double cos_z_rotation = cos(transform->z_rotation * 3.14159265359f / 180);
-		    double sin_z_rotation = sin(transform->z_rotation * 3.14159265359f / 180);
-
-
-		//vertices[0].position[0] = spriteRenderer->getVertices()[0].position[0] * cos_z_rotation - spriteRenderer->getVertices()[0].position[1] * sin_z_rotation;
-		//vertices[0].position[1] = spriteRenderer->getVertices()[0].position[1] * cos_z_rotation + spriteRenderer->getVertices()[0].position[0] * sin_z_rotation;
-		/*
-		//buttom left vertex
-		vertices[1].position[0] = spriteRenderer->getVertices()[1].position[0] * cos_z_rotation + spriteRenderer->getVertices()[1].position[1] * sin_z_rotation;
-		vertices[1].position[1] = spriteRenderer->getVertices()[1].position[1] * cos_z_rotation - spriteRenderer->getVertices()[1].position[0] * sin_z_rotation;
-
-		//buttom right vertex
-		vertices[2].position[0] = spriteRenderer->getVertices()[2].position[0] * cos_z_rotation - spriteRenderer->getVertices()[2].position[1] * sin_z_rotation;
-		vertices[2].position[1] = spriteRenderer->getVertices()[2].position[1] * cos_z_rotation + spriteRenderer->getVertices()[2].position[0] * sin_z_rotation;
-
-		//top right vertex
-		vertices[3].position[0] = spriteRenderer->getVertices()[3].position[0] * cos_z_rotation - spriteRenderer->getVertices()[3].position[1] * sin_z_rotation;
-		vertices[3].position[1] = spriteRenderer->getVertices()[3].position[1] * cos_z_rotation + spriteRenderer->getVertices()[3].position[0] * sin_z_rotation;
-		*/
-		//applying position offsets 
-		 //top left vertex
-		vertices[0].position[0] = vertices[0].position[0] + transform->x_position - m_x;
-		vertices[0].position[1] = vertices[0].position[1] + transform->y_position - m_y;
-		//buttom left 	 
-		vertices[1].position[0] = vertices[1].position[0] + transform->x_position - m_x;
-		vertices[1].position[1] = vertices[1].position[1] + transform->y_position - m_y;
-		//buttom right 	  
-		vertices[2].position[0] = vertices[2].position[0] + transform->x_position - m_x;
-		vertices[2].position[1] = vertices[2].position[1] + transform->y_position - m_y;
-		//top right 	  
-		vertices[3].position[0] = vertices[3].position[0] + transform->x_position - m_x;
-		vertices[3].position[1] = vertices[3].position[1] + transform->y_position - m_y;
+		//uniform4ui
+		for (auto uniform : spriteRenderer->g_uniforms_4ui)
+			glUniform4ui(glGetUniformLocation(spriteRenderer->getShaderProgram(), uniform.name.c_str()), uniform.value1, uniform.value2, uniform.value3, uniform.value4);
 
 
 		GL_CALL(glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_DYNAMIC_DRAW))

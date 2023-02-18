@@ -131,7 +131,7 @@ void SpriteRenderer::computeVertices()
 	vertices[3].position[0] = 0.5f * ws_Width;
 	vertices[3].position[1] = 0.5f * ws_Height;
 	
-	/*
+	
 	//setting up color data 
 	 //top left vertex 
 	vertices[0].color[0] = m_color[0];
@@ -153,29 +153,7 @@ void SpriteRenderer::computeVertices()
 	vertices[3].color[1] = m_color[1];
 	vertices[3].color[2] = m_color[2];
 	vertices[3].color[3] = m_color[3];
-	*/
 
-	//setting up color data 
-	 //top left vertex 
-	vertices[0].color[0] = 1;
-	vertices[0].color[1] = 1;
-	vertices[0].color[2] = 1;
-	vertices[0].color[3] = 1;
-	//buttom left vertex
-	vertices[1].color[0] = 1;
-	vertices[1].color[1] = 1;
-	vertices[1].color[2] = 1;
-	vertices[1].color[3] = 1;
-	//buttom right vertex 
-	vertices[2].color[0] = 1;
-	vertices[2].color[1] = 1;
-	vertices[2].color[2] = 1;
-	vertices[2].color[3] = 1;
-	//top right vertex 
-	vertices[3].color[0] = 1;
-	vertices[3].color[1] = 1;
-	vertices[3].color[2] = 1;
-	vertices[3].color[3] = 1;
 
 	//setting up texture coordinate data
 	//top left vertex
