@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include "ShadersManager.h"
+#include "ErrorHandler.h"
 using namespace RenderMe::Base;
 
 
@@ -16,7 +17,7 @@ ShaderManager::~ShaderManager()
     
     for (auto const& [key, val] : m_shaders)
     {
-        glDeleteShader(val.first);
+        GL_CALL(glDeleteShader(val.first))
     }
 
 }
@@ -53,30 +54,30 @@ unsigned int ShaderManager::compileShader_by_filePath(std::string p_shaderName, 
     //you can delete this if you want
     sourceFile.close();
 
-	glShaderSource(shader, 1, &source, nullptr);
+	GL_CALL(glShaderSource(shader, 1, &source, nullptr))
     //std::cout << source;
     delete[] source;
-    glCompileShader(shader);
+    GL_CALL(glCompileShader(shader))
     
 	int result;
 
 
-    glGetShaderiv(shader, GL_COMPILE_STATUS, &result);
+    GL_CALL(glGetShaderiv(shader, GL_COMPILE_STATUS, &result))
 
     //if the compiling process faild 
     if (!result)
     {
         char* compileMessage;
         int length;
-        glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &length);
+        GL_CALL(glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &length))
 
         compileMessage = (char*)malloc(length * sizeof(char) + 1);
 
-        glGetShaderInfoLog(shader, length, &length, compileMessage);
+        GL_CALL(glGetShaderInfoLog(shader, length, &length, compileMessage))
         std::cout << compileMessage;
         //here we are deleting the shader because the compiling process failed so there is no need for it 
 
-        glDeleteShader(shader);
+        GL_CALL(glDeleteShader(shader))
         return 0;
     }
 
@@ -99,29 +100,29 @@ unsigned int ShaderManager::compileShader_by_source(std::string p_shaderName, GL
 
 
    
-    glShaderSource(shader, 1, &source, nullptr);
+    GL_CALL(glShaderSource(shader, 1, &source, nullptr))
     delete[] source;
-    glCompileShader(shader);
+    GL_CALL(glCompileShader(shader))
 
     int result;
 
 
-    glGetShaderiv(shader, GL_COMPILE_STATUS, &result);
+    GL_CALL(glGetShaderiv(shader, GL_COMPILE_STATUS, &result))
 
     //if the compiling process faild 
     if (!result)
     {
         char* compileMessage;
         int length;
-        glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &length);
+        GL_CALL(glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &length))
 
         compileMessage = (char*)malloc(length * sizeof(char) + 1);
 
-        glGetShaderInfoLog(shader, length, &length, compileMessage);
+        GL_CALL(glGetShaderInfoLog(shader, length, &length, compileMessage))
         std::cout << compileMessage;
         //here we are deleting the shader because the compiling process failed so there is no need for it 
 
-        glDeleteShader(shader);
+        GL_CALL(glDeleteShader(shader))
         return 0;
     }
 

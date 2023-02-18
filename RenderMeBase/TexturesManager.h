@@ -20,7 +20,7 @@ namespace RenderMe
 			//adding texture by passing data directly 
 			int addTexture(unsigned char* p_data,unsigned int p_width,unsigned int p_hieght,std::string p_name);
 
-			inline Texture getTexture(std::string p_name) ;
+			inline Texture getTexture(std::string p_name);
 		private :
 			//a map that assigns texture name (key) with its  texture object (value)
 			std::unordered_map<std::string, Texture> m_textures;

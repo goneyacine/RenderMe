@@ -2,9 +2,11 @@
 #include <cassert>
 #include "GL/glew.h"
 
-#define GL_CALL(x) ClearGLErrors();\
+
+
+#define GL_CALL(x) RenderMe::Base::ClearGLErrors();\
  x;\
- assert(LogGLErrors());
+ assert(RenderMe::Base::LogGLErrors());
 
 namespace RenderMe
 {
