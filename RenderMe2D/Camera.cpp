@@ -65,7 +65,6 @@ void Camera::render()
 
 		std::vector<RenderMe::Base::Entity> entities = m_scene->getEntities();
 
-	Vertex vertices[4];
 
 
 	float cam_x_size = g_orthographicSize * g_aspectRatioX / std::max(g_aspectRatioX, g_aspectRatioY);
@@ -80,14 +79,43 @@ void Camera::render()
 		TransformComponent* transform = m_scene->getComponent<TransformComponent>(entity);
 		SpriteRenderer* spriteRenderer = m_scene->getComponent<SpriteRenderer>(entity);
 
+		Vertex vertices[4] = {
+			  {
+				 {-0.5f,0.5f},
+				 {spriteRenderer->g_color[0],spriteRenderer->g_color[1],spriteRenderer->g_color[2],spriteRenderer->g_color[3]},
+				 {1,0}
+			  },
+			  {
+				 {-0.5f,-0.5f},
+				 {spriteRenderer->g_color[0],spriteRenderer->g_color[1],spriteRenderer->g_color[2],spriteRenderer->g_color[3]},
+				 {1,0}
+			  },
+			  {
+				 {0.5f,-0.5f},
+				 {spriteRenderer->g_color[0],spriteRenderer->g_color[1],spriteRenderer->g_color[2],spriteRenderer->g_color[3]},
+				 {1,0}
+			  },
+			  {
+				 {0.5f,0.5f},
+				 {spriteRenderer->g_color[0],spriteRenderer->g_color[1],spriteRenderer->g_color[2],spriteRenderer->g_color[3]},
+				 {1,0}
+			  }
+		};
+		
 		//model view projection matrix
 		glm::mat4 mvp = glm::mat4(1);
 		mvp = glm::translate(mvp, glm::vec3(transform->x_position - g_x, transform->y_position - g_y, 1));
-		mvp = glm::rotate(mvp, (transform->z_rotation - g_angle) * 3.14159265359f / 180, glm::vec3(0, 0, 1));
-		mvp = glm::scale(mvp, glm::vec3(transform->x_scale, transform->y_scale, 1));
 
-		for (int i = 0; i < spriteRenderer->getVertices().size(); i++)
-			vertices[i] = spriteRenderer->getVertices()[i];
+		mvp = glm::rotate(mvp, (transform->z_rotation - g_angle) * 3.14159265359f / 180, glm::vec3(0, 0, 1));
+
+		mvp = glm::scale(mvp,
+			 glm::vec3(
+			  transform->x_scale * (float)spriteRenderer->getTexture().getWidth() / spriteRenderer->g_PPU,
+			  transform->y_scale * (float)spriteRenderer->getTexture().getHeight() / spriteRenderer->g_PPU,
+			  1)
+		);
+
+
 
 		if (transform == nullptr || spriteRenderer == nullptr)
 			continue;
@@ -100,7 +128,7 @@ void Camera::render()
 
 
 
-
+     /*
 			//uniform1f
 		for (auto uniform : spriteRenderer->g_uniforms_1f)
 			glUniform1f(glGetUniformLocation(spriteRenderer->getShaderProgram(), uniform.name.c_str()), uniform.value1);
@@ -148,7 +176,7 @@ void Camera::render()
 		//uniform4ui
 		for (auto uniform : spriteRenderer->g_uniforms_4ui)
 			glUniform4ui(glGetUniformLocation(spriteRenderer->getShaderProgram(), uniform.name.c_str()), uniform.value1, uniform.value2, uniform.value3, uniform.value4);
-
+	    */
 
 		GL_CALL(glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_DYNAMIC_DRAW))
 		GL_CALL(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0))

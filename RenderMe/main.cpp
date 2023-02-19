@@ -38,10 +38,12 @@ int main()
     tran.y_scale = 1;
 
       Texture t = Texture(100,100,0);
+      float color[4] = { 0.5f,0.2f,.04f,1 };
+     
     unsigned int vertexShader = scene.getShadersManager()->compileShader_by_filePath("Hello",GL_VERTEX_SHADER,"D:\\Dev\\VS projects\\RenderMe Project\\x64\\Debug\\vertexShader.txt");
     unsigned int fragmentShader = scene.getShadersManager()->compileShader_by_filePath("Hello1",GL_FRAGMENT_SHADER,"D:\\Dev\\VS projects\\RenderMe Project\\x64\\Debug\\fragmentShader.txt");
 
-    SpriteRenderer spr = SpriteRenderer(t,vertexShader,fragmentShader,100);
+    SpriteRenderer spr = SpriteRenderer(t,color,vertexShader,fragmentShader,100);
     scene.addComponent<TransformComponent>(entity, tran);
     scene.addComponent<SpriteRenderer>(entity, spr);
     Camera cam = Camera(&scene,16,8,30,0,0,30);

@@ -19,13 +19,8 @@ namespace RenderMe
 			SpriteRenderer(RenderMe::Base::Texture p_texture,float* p_color, unsigned int p_vertexShaderID, unsigned int p_fragmentShaderID, unsigned int p_PPU = 100);
 			~SpriteRenderer();
 
-			void setPixelsPerUnit(unsigned int p_PPU);
-			 unsigned int getPixelsPerUnit() const;
-
-			 std::vector<Vertex> getVertices() const;
-			 std::vector<unsigned int> getIndices()const;
-			 RenderMe::Base::Texture getTexture() const;
-			 unsigned int getShaderProgram() const;
+			RenderMe::Base::Texture getTexture() const;
+			unsigned int getShaderProgram() const;
 			void setTexture(RenderMe::Base::Texture p_texture);
 
 
@@ -48,15 +43,13 @@ namespace RenderMe
 			std::vector<RenderMe::Base::Uniform4ui> g_uniforms_4ui;
 
 
+			float g_color[4] = {0,0,0,1};
+			//PPU stands for pixels per unit
+			unsigned int g_PPU = 100;
 		private : 
 
-			void computeVertices();
-			std::vector<Vertex> m_vertices;
-			std::vector<unsigned int> m_indices = { 0, 1, 2, 2, 3, 0 };
-			float m_color[4] = {0,0,0,1};
 			RenderMe::Base::Texture m_texture;
-			//PPU stands for pixels per unit
-			unsigned int m_PPU = 100;
+			
 
 			unsigned int m_glProgramID = 0;
 
