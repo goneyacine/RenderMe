@@ -109,7 +109,7 @@ void Camera::render()
 		mvp = glm::rotate(mvp, (transform->z_rotation - g_angle) * 3.14159265359f / 180, glm::vec3(0, 0, 1));
 
 		mvp = glm::scale(mvp,
-			 glm::vec3(
+			  glm::vec3(
 			  transform->x_scale * (float)spriteRenderer->getTexture().getWidth() / spriteRenderer->g_PPU,
 			  transform->y_scale * (float)spriteRenderer->getTexture().getHeight() / spriteRenderer->g_PPU,
 			  1)
@@ -126,57 +126,6 @@ void Camera::render()
 	    GL_CALL(glUniformMatrix4fv(glGetUniformLocation(spriteRenderer->getShaderProgram(), "projectionMatrix"), 1, GL_FALSE, glm::value_ptr(projectionMatrix)))
 		GL_CALL(glUniformMatrix4fv(glGetUniformLocation(spriteRenderer->getShaderProgram(), "mvp"), 1, GL_FALSE, glm::value_ptr(mvp)))
 
-
-
-     /*
-			//uniform1f
-		for (auto uniform : spriteRenderer->g_uniforms_1f)
-			glUniform1f(glGetUniformLocation(spriteRenderer->getShaderProgram(), uniform.name.c_str()), uniform.value1);
-		//uniform2f
-		for (auto uniform : spriteRenderer->g_uniforms_2f)
-			glUniform2f(glGetUniformLocation(spriteRenderer->getShaderProgram(), uniform.name.c_str()), uniform.value1, uniform.value2);
-
-		//uniform3f
-		for (auto uniform : spriteRenderer->g_uniforms_3f)
-			glUniform3f(glGetUniformLocation(spriteRenderer->getShaderProgram(), uniform.name.c_str()), uniform.value1, uniform.value2, uniform.value3);
-
-		//uniform4f
-		for (auto uniform : spriteRenderer->g_uniforms_4f)
-			glUniform4f(glGetUniformLocation(spriteRenderer->getShaderProgram(), uniform.name.c_str()), uniform.value1, uniform.value2, uniform.value3, uniform.value4);
-
-
-		//uniform1i
-		for (auto uniform : spriteRenderer->g_uniforms_1i)
-			glUniform1i(glGetUniformLocation(spriteRenderer->getShaderProgram(), uniform.name.c_str()), uniform.value1);
-
-		//uniform2i
-		for (auto uniform : spriteRenderer->g_uniforms_2i)
-			glUniform2i(glGetUniformLocation(spriteRenderer->getShaderProgram(), uniform.name.c_str()), uniform.value1, uniform.value2);
-		//uniform3i
-		for (auto uniform : spriteRenderer->g_uniforms_3i)
-			glUniform3i(glGetUniformLocation(spriteRenderer->getShaderProgram(), uniform.name.c_str()), uniform.value1, uniform.value2, uniform.value3);
-		//uniform4i
-		for (auto uniform : spriteRenderer->g_uniforms_4i)
-			glUniform4i(glGetUniformLocation(spriteRenderer->getShaderProgram(), uniform.name.c_str()), uniform.value1, uniform.value2, uniform.value3, uniform.value4);
-
-
-
-		//uniform1ui
-		for (auto uniform : spriteRenderer->g_uniforms_1ui)
-			glUniform1ui(glGetUniformLocation(spriteRenderer->getShaderProgram(), uniform.name.c_str()), uniform.value1);
-
-		//uniform2ui
-		for (auto uniform : spriteRenderer->g_uniforms_2ui)
-			glUniform2ui(glGetUniformLocation(spriteRenderer->getShaderProgram(), uniform.name.c_str()), uniform.value1, uniform.value2);
-
-		//uniform3ui
-		for (auto uniform : spriteRenderer->g_uniforms_3ui)
-			glUniform3ui(glGetUniformLocation(spriteRenderer->getShaderProgram(), uniform.name.c_str()), uniform.value1, uniform.value2, uniform.value3);
-
-		//uniform4ui
-		for (auto uniform : spriteRenderer->g_uniforms_4ui)
-			glUniform4ui(glGetUniformLocation(spriteRenderer->getShaderProgram(), uniform.name.c_str()), uniform.value1, uniform.value2, uniform.value3, uniform.value4);
-	    */
 
 		GL_CALL(glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_DYNAMIC_DRAW))
 		GL_CALL(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0))
