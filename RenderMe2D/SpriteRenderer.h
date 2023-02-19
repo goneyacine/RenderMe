@@ -25,22 +25,24 @@ namespace RenderMe
 
 
 
-			//texture uniforms data
-			std::vector<RenderMe::Base::Uniform1f> g_uniforms_1f;
-			std::vector<RenderMe::Base::Uniform2f> g_uniforms_2f;
-			std::vector<RenderMe::Base::Uniform3f> g_uniforms_3f;
-			std::vector<RenderMe::Base::Uniform4f> g_uniforms_4f;
+
+			void setUniforms_1f(RenderMe::Base::Uniform1f p_uniform);
+			void setUniforms_2f(RenderMe::Base::Uniform2f p_uniform);
+			void setUniforms_3f(RenderMe::Base::Uniform3f p_uniform);
+			void setUniforms_4f(RenderMe::Base::Uniform4f p_uniform);
+
+			void setUniforms_1i(RenderMe::Base::Uniform1i p_uniform);
+			void setUniforms_2i(RenderMe::Base::Uniform2i p_uniform);
+			void setUniforms_3i(RenderMe::Base::Uniform3i p_uniform);
+			void setUniforms_4i(RenderMe::Base::Uniform4i p_uniform);
+
+			void setUniforms_1ui(RenderMe::Base::Uniform1ui p_uniform);
+			void setUniforms_2ui(RenderMe::Base::Uniform2ui p_uniform);
+			void setUniforms_3ui(RenderMe::Base::Uniform3ui p_uniform);
+			void setUniforms_4ui(RenderMe::Base::Uniform4ui p_uniform);
 
 
-			std::vector<RenderMe::Base::Uniform1i> g_uniforms_1i;
-			std::vector<RenderMe::Base::Uniform2i> g_uniforms_2i;
-			std::vector<RenderMe::Base::Uniform3i> g_uniforms_3i;
-			std::vector<RenderMe::Base::Uniform4i> g_uniforms_4i;
-
-			std::vector<RenderMe::Base::Uniform1ui> g_uniforms_1ui;
-			std::vector<RenderMe::Base::Uniform2ui> g_uniforms_2ui;
-			std::vector<RenderMe::Base::Uniform3ui> g_uniforms_3ui;
-			std::vector<RenderMe::Base::Uniform4ui> g_uniforms_4ui;
+			
 
 
 			float g_color[4] = {0,0,0,1};
