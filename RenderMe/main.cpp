@@ -44,12 +44,12 @@ int main()
     SpriteRenderer spr = SpriteRenderer(t,vertexShader,fragmentShader,100);
     scene.addComponent<TransformComponent>(entity, tran);
     scene.addComponent<SpriteRenderer>(entity, spr);
-    Camera cam = Camera(&scene,,0,0,0,0,0);
+    Camera cam = Camera(&scene,16,8,30,0,0,30);
     
 
     while (!glfwWindowShouldClose(window))
     {
-        
+        cam.g_angle++;
         cam.render();
 
         glfwSwapBuffers(window);

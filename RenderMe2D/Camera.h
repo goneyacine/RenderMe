@@ -17,15 +17,20 @@ namespace RenderMe
 			Camera(RenderMe::Base::Scene* p_scene, float p_aspectRatioX = 16, float p_aspectRatioY = 9,float p_orthographicSize = 10,float p_x = 0, float p_y = 0,float p_angle = 0);
 			~Camera();
 			void render();
+
+
+			float g_x = 0;
+			float g_y = 0;
+			float g_angle = 0;
+
+			float g_aspectRatioX = 16;
+			float g_aspectRatioY = 9;
+			float g_orthographicSize = 10;
 		private :
-			float m_x = 0;
-			float m_y = 0;
-			float m_angle = 0;
+			void initBuffers();
+			void deleteBuffers();
 
-			float m_aspectRatioX = 16;
-			float m_aspectRatioY = 9;
-			float m_orthographicSize = 10;
-
+			unsigned int m_vertexBuffer, m_indexBuffer;
 			RenderMe::Base::Scene* m_scene = nullptr;
 		};
 	}
