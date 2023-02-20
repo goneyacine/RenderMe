@@ -14,10 +14,7 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="other">
-      <UniqueIdentifier>{5bded84f-5956-4ac9-bea2-0e1df5762e17}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="other\stb">
-      <UniqueIdentifier>{f709f7bc-f8a2-49ba-aff0-78614f851ea7}</UniqueIdentifier>
+      <UniqueIdentifier>{1a8f617b-ab21-4776-a569-55ce4e3bda2b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -27,11 +24,11 @@
     <ClInclude Include="SpriteRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\RenderMeBase\stb_image.h">
-      <Filter>other\stb</Filter>
-    </ClInclude>
     <ClInclude Include="Vertex.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\RenderMeBase\stb_image.h">
+      <Filter>other</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -40,9 +37,6 @@
     </ClCompile>
     <ClCompile Include="SpriteRenderer.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\RenderMeBase\stb_image.cpp">
-      <Filter>other\stb</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

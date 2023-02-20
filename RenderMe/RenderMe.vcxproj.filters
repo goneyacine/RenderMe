@@ -14,23 +14,17 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="other">
-      <UniqueIdentifier>{761a81a9-85e6-487d-8b64-91a13f73b8d3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="other\stb">
-      <UniqueIdentifier>{7128ea58-0d24-4964-adb0-78010fe3da8f}</UniqueIdentifier>
+      <UniqueIdentifier>{7002325f-67aa-431f-810a-f41be86e6737}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\RenderMeBase\stb_image.cpp">
-      <Filter>other\stb</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\RenderMeBase\stb_image.h">
-      <Filter>other\stb</Filter>
+      <Filter>other</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

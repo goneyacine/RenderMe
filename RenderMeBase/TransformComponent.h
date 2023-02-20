@@ -10,19 +10,19 @@ namespace RenderMe
 		struct TransformComponent
 		{
 			//entity position
-			float x_position;
-			float y_position;
-			float z_position;
+			float x_position = 0;
+			float y_position = 0;
+			float z_position = 0;
 
 			//entity rotation
-			float x_rotation;
-			float y_rotation;
-			float z_rotation;
+			float x_rotation = 0;
+			float y_rotation = 0;
+			float z_rotation = 0;
 
 			//entity scale 
-			float x_scale;
-			float y_scale;
-			float z_scale;
+			float x_scale = 0;
+			float y_scale = 0;
+			float z_scale = 0;
 		};
 
 	}

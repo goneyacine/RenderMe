@@ -141,7 +141,6 @@
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\RenderMeBase\stb_image.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="SpriteRenderer.cpp" />
   </ItemGroup>

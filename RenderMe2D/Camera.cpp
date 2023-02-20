@@ -67,8 +67,8 @@ void Camera::render()
 
 
 
-	float cam_x_size = g_orthographicSize * g_aspectRatioX / std::max(g_aspectRatioX, g_aspectRatioY);
-	float cam_y_size = g_orthographicSize * g_aspectRatioY / std::max(g_aspectRatioX, g_aspectRatioY);
+	float cam_x_size = g_orthographicSize; //* g_aspectRatioX / std::max(g_aspectRatioX, g_aspectRatioY);
+	float cam_y_size = g_orthographicSize; //* g_aspectRatioY / std::max(g_aspectRatioX, g_aspectRatioY);
 
 	glm::mat4 projectionMatrix = glm::ortho(-cam_x_size / 2, cam_x_size / 2, -cam_y_size / 2, cam_y_size / 2);
 
@@ -83,12 +83,12 @@ void Camera::render()
 			  {
 				 {-0.5f,0.5f},
 				 {spriteRenderer->g_color[0],spriteRenderer->g_color[1],spriteRenderer->g_color[2],spriteRenderer->g_color[3]},
-				 {1,0}
+				 {0,1}
 			  },
 			  {
 				 {-0.5f,-0.5f},
 				 {spriteRenderer->g_color[0],spriteRenderer->g_color[1],spriteRenderer->g_color[2],spriteRenderer->g_color[3]},
-				 {1,0}
+				 {0,0}
 			  },
 			  {
 				 {0.5f,-0.5f},
@@ -98,7 +98,7 @@ void Camera::render()
 			  {
 				 {0.5f,0.5f},
 				 {spriteRenderer->g_color[0],spriteRenderer->g_color[1],spriteRenderer->g_color[2],spriteRenderer->g_color[3]},
-				 {1,0}
+				 {1,1}
 			  }
 		};
 		
@@ -115,12 +115,14 @@ void Camera::render()
 			  1)
 		);
 
-
-
 		if (transform == nullptr || spriteRenderer == nullptr)
 			continue;
+		    GL_CALL(glActiveTexture(GL_TEXTURE0))
+			GL_CALL(glEnable(GL_TEXTURE_2D))
+			GL_CALL(glUseProgram(spriteRenderer->getShaderProgram()))
+			GL_CALL(glUniform1i(glGetUniformLocation(spriteRenderer->getShaderProgram(), "u_texture"), 0))
+			GL_CALL(glBindTexture(GL_TEXTURE_2D, spriteRenderer->getTexture().getOpenGL_ID()))
 
-		GL_CALL(glUseProgram(spriteRenderer->getShaderProgram()))
 
 		
 	    GL_CALL(glUniformMatrix4fv(glGetUniformLocation(spriteRenderer->getShaderProgram(), "projectionMatrix"), 1, GL_FALSE, glm::value_ptr(projectionMatrix)))
@@ -133,7 +135,7 @@ void Camera::render()
 	}
 
 
-	
+	glBindTexture(GL_TEXTURE_2D, 0);
 
 }
 
@@ -174,4 +176,6 @@ void Camera::deleteBuffers()
 	GL_CALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0)) //unbinding the index buffer
 	GL_CALL(glDeleteBuffers(1, &m_vertexBuffer))
     GL_CALL(glDeleteBuffers(1, &m_indexBuffer))
+	
+    
 }
