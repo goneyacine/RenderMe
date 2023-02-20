@@ -29,7 +29,7 @@ unsigned int Texture::getHeight() const
 	return m_height;
 }
 
-unsigned int Texture::getGlTexture() const
+unsigned int Texture::getOpenGL_ID() const
 {
 	return m_textureGL;
 }

@@ -14,7 +14,7 @@ namespace RenderMe
 			~Texture();
 			unsigned int getWidth() const;
 			unsigned int getHeight() const;
-			unsigned int getGlTexture() const;
+			unsigned int getOpenGL_ID() const;
 		private :
 			unsigned int m_width;
 			unsigned int m_height;
