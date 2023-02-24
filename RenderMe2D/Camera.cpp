@@ -79,6 +79,11 @@ void Camera::render()
 		TransformComponent* transform = m_scene->getComponent<TransformComponent>(entity);
 		SpriteRenderer* spriteRenderer = m_scene->getComponent<SpriteRenderer>(entity);
 
+		if (transform == nullptr || spriteRenderer == nullptr)
+			continue;
+
+
+
 		Vertex vertices[4] = {
 			  {
 				 {-0.5f,0.5f},
@@ -101,32 +106,27 @@ void Camera::render()
 				 {1,1}
 			  }
 		};
-		
+
 		//model view projection matrix
 		glm::mat4 mvp = glm::mat4(1);
-		mvp = glm::translate(mvp, glm::vec3(transform->x_position - g_x, transform->y_position - g_y, 1));
 
 		mvp = glm::rotate(mvp, (transform->z_rotation - g_angle) * 3.14159265359f / 180, glm::vec3(0, 0, 1));
+		
+		mvp = glm::translate(mvp, glm::vec3(transform->x_position - g_x, transform->y_position - g_y, 1));
 
 		mvp = glm::scale(mvp,
-			  glm::vec3(
-			  transform->x_scale * (float)spriteRenderer->getTexture().getWidth() / spriteRenderer->g_PPU,
-			  transform->y_scale * (float)spriteRenderer->getTexture().getHeight() / spriteRenderer->g_PPU,
-			  1)
+			glm::vec3(
+				transform->x_scale * (float)spriteRenderer->getTexture().getWidth() / spriteRenderer->g_PPU,
+				transform->y_scale * (float)spriteRenderer->getTexture().getHeight() / spriteRenderer->g_PPU,
+				1)
 		);
 
-		if (transform == nullptr || spriteRenderer == nullptr)
-			continue;
-		    GL_CALL(glActiveTexture(GL_TEXTURE0))
-			GL_CALL(glEnable(GL_TEXTURE_2D))
+		   
 			GL_CALL(glUseProgram(spriteRenderer->getShaderProgram()))
 			GL_CALL(glUniform1i(glGetUniformLocation(spriteRenderer->getShaderProgram(), "u_texture"), 0))
 			GL_CALL(glBindTexture(GL_TEXTURE_2D, spriteRenderer->getTexture().getOpenGL_ID()))
-
-
-		
-	    GL_CALL(glUniformMatrix4fv(glGetUniformLocation(spriteRenderer->getShaderProgram(), "projectionMatrix"), 1, GL_FALSE, glm::value_ptr(projectionMatrix)))
-		GL_CALL(glUniformMatrix4fv(glGetUniformLocation(spriteRenderer->getShaderProgram(), "mvp"), 1, GL_FALSE, glm::value_ptr(mvp)))
+     	    GL_CALL(glUniformMatrix4fv(glGetUniformLocation(spriteRenderer->getShaderProgram(), "u_projectionMatrix"), 1, GL_FALSE, glm::value_ptr(projectionMatrix)))
+	    	GL_CALL(glUniformMatrix4fv(glGetUniformLocation(spriteRenderer->getShaderProgram(), "u_mvp"), 1, GL_FALSE, glm::value_ptr(mvp)))
 
 
 		GL_CALL(glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_DYNAMIC_DRAW))
@@ -145,6 +145,8 @@ void Camera::initBuffers()
 	    //Enabling blending
 	    GL_CALL(glEnable(GL_BLEND))
 		GL_CALL(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA))
+		GL_CALL(glActiveTexture(GL_TEXTURE0))
+		GL_CALL(glEnable(GL_TEXTURE_2D))
 
 		
 	    GL_CALL(glGenBuffers(1, &m_vertexBuffer))

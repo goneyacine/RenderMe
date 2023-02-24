@@ -27,9 +27,11 @@ unsigned int ShaderManager::compileShader_by_filePath(std::string p_shaderName, 
 {
  
 	unsigned int shader = glCreateShader(p_shaderType);
-    //remeber to delete this after passing the source to opengl
+
     char* source;
-	//reading shader's source from source file
+
+
+
     std::ifstream sourceFile(p_filePath);
 
     if (sourceFile.is_open())
@@ -51,11 +53,10 @@ unsigned int ShaderManager::compileShader_by_filePath(std::string p_shaderName, 
         return -1;
     }
 
-    //you can delete this if you want
+
     sourceFile.close();
 
 	GL_CALL(glShaderSource(shader, 1, &source, nullptr))
-    //std::cout << source;
     delete[] source;
     GL_CALL(glCompileShader(shader))
     
@@ -75,13 +76,13 @@ unsigned int ShaderManager::compileShader_by_filePath(std::string p_shaderName, 
 
         GL_CALL(glGetShaderInfoLog(shader, length, &length, compileMessage))
         std::cout << compileMessage;
-        //here we are deleting the shader because the compiling process failed so there is no need for it 
+  
 
         GL_CALL(glDeleteShader(shader))
         return 0;
     }
 
-    //assigning shader's name and object to the map
+
     m_shaders[p_shaderName] = std::pair<unsigned int,GLenum>(shader,p_shaderType);
  
 	return shader;
@@ -94,7 +95,9 @@ unsigned int ShaderManager::compileShader_by_source(std::string p_shaderName, GL
 
 
     unsigned int shader = glCreateShader(p_shaderType);
-    //remeber to delete this after passing the source to opengl
+  
+
+
     char* source = new char[p_source.length() + 1];
     strcpy_s(source, p_source.length() + 1, p_source.c_str());
 
@@ -120,13 +123,13 @@ unsigned int ShaderManager::compileShader_by_source(std::string p_shaderName, GL
 
         GL_CALL(glGetShaderInfoLog(shader, length, &length, compileMessage))
         std::cout << compileMessage;
-        //here we are deleting the shader because the compiling process failed so there is no need for it 
+   
 
         GL_CALL(glDeleteShader(shader))
         return 0;
     }
 
-    //assigning shader's name and object to the map
+
     m_shaders[p_shaderName] = std::pair<unsigned int, GLenum>(shader, p_shaderType);
 
     return shader;
