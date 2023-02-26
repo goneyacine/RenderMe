@@ -1,5 +1,10 @@
 #pragma once
 
+#include <vector>
+
+#include "Vertex.h"
+#include "Index.h"
+
 namespace RenderMe
 {
 	namespace RenderMe3D
@@ -9,7 +14,24 @@ namespace RenderMe
 		{
 		public :
 			Mesh();
+			Mesh(std::vector<Vertex> p_vertices);
+			Mesh(std::vector<Vertex> p_vertices, std::vector<Index> p_indices);
 			~Mesh();
+
+			void addVertex(Vertex p_vertex);
+			void deleteVertex(int p_index);
+			void addIndex(Index p_index);
+			//the index in m_indices vector 
+			void deleteIndex(int p_index);
+
+			void setVertex(Vertex p_vertex, int p_index);
+			void setIndex(Index p_index, int p_i);
+
+			void setVertices(std::vector<Vertex> p_vertices);
+			void setIndices(std::vector<Index> p_indices);
+		private :
+			std::vector<Vertex> m_vertices;
+			std::vector<Index> m_indices;
 		};
 	}
 }
