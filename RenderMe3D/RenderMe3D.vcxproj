@@ -105,6 +105,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\glm\gtx;$(SolutionDir)Dependencies\glm\simd;$(SolutionDir)Dependencies\glm\gtc;$(SolutionDir)Dependencies\glew\ext;$(SolutionDir)\Dependencies\glm\detail;$(SolutionDir)Dependencies\glew\include;$(SolutionDir)/Dependencies\entt\include;$(SolutionDir)/RenderMeBase;$(SolutionDir)Dependencies\glm</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -141,8 +142,10 @@
   <ItemGroup>
     <ClInclude Include="..\RenderMeBase\stb_image.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Index.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshManager.h" />
+    <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

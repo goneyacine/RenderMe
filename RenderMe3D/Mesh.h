@@ -19,10 +19,7 @@ namespace RenderMe
 			~Mesh();
 
 			void addVertex(Vertex p_vertex);
-			void deleteVertex(int p_index);
 			void addIndex(Index p_index);
-			//the index in m_indices vector 
-			void deleteIndex(int p_index);
 
 			void setVertex(Vertex p_vertex, int p_index);
 			void setIndex(Index p_index, int p_i);

@@ -20,7 +20,6 @@ Mesh::Mesh(std::vector<Vertex> p_vertices, std::vector<Index> p_indices)
 
 }
 
-
 Mesh::~Mesh()
 {
 
@@ -31,20 +30,9 @@ void RenderMe::RenderMe3D::Mesh::addVertex(Vertex p_vertex)
 	m_vertices.push_back(p_vertex);
 }
 
-void RenderMe::RenderMe3D::Mesh::deleteVertex(int p_index)
-{
-	//TODO : implement this function
-}
-
 void RenderMe::RenderMe3D::Mesh::addIndex(Index p_index)
 {
 	m_indices.push_back(p_index);
-}
-
-void RenderMe::RenderMe3D::Mesh::deleteIndex(int p_index)
-{
-	//TODO : implement this function
-
 }
 
 void RenderMe::RenderMe3D::Mesh::setVertex(Vertex p_vertex, int p_index)
