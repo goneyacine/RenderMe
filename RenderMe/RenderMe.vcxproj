@@ -106,7 +106,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\glew\include ;$(SolutionDir)/Dependencies\entt\include;$(SolutionDir)RenderMeBase;$(SolutionDir)RenderMe2D;$(SolutionDir)Dependencies\glfw\glfw-3.3.8 win64\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/RenderMe3D;$(SolutionDir)Dependencies\glew\include ;$(SolutionDir)/Dependencies\entt\include;$(SolutionDir)RenderMeBase;$(SolutionDir)RenderMe2D;$(SolutionDir)Dependencies\glfw\glfw-3.3.8 win64\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -135,12 +135,12 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RenderMe2D\RenderMe2D.vcxproj">
-      <Project>{78cbb620-9698-4d85-aa66-a07d4effe16f}</Project>
-    </ProjectReference>
+    <ClInclude Include="..\RenderMeBase\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\RenderMeBase\stb_image.h" />
+    <ProjectReference Include="..\RenderMe3D\RenderMe3D.vcxproj">
+      <Project>{a7b79f5b-71b8-4b9c-9e69-cb300a831412}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
