@@ -27,7 +27,7 @@ namespace RenderMe
 			std::vector<Entity> getEntities() const;
 			template<typename T> T* getComponent(Entity p_entity);
 			//NOTE : if entity already has that component it will replace it with the new one
-			template<typename T> void addComponent(Entity p_entity, T p_component);
+			template<typename T> void addComponent(Entity p_entity, T& p_component);
 		private:
 			Registry m_registry;
 			std::vector<Entity> m_entities;
@@ -49,7 +49,7 @@ namespace RenderMe
 		}
 
 		template<typename T>
-		inline void Scene::addComponent(Entity p_entity, T p_component)
+		inline void Scene::addComponent(Entity p_entity, T& p_component)
 		{
 		 m_registry.emplace_or_replace<T>(p_entity);
 		 *getComponent<T>(p_entity) = p_component;

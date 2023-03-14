@@ -26,6 +26,9 @@ namespace RenderMe
 
 			void setVertices(std::vector<Vertex> p_vertices);
 			void setIndices(std::vector<Index> p_indices);
+
+			std::vector<Vertex> getVertices() const;
+			std::vector<Index>  getIndices() const;
 		private :
 			std::vector<Vertex> m_vertices;
 			std::vector<Index> m_indices;

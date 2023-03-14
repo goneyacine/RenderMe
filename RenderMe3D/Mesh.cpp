@@ -54,3 +54,13 @@ void RenderMe::RenderMe3D::Mesh::setIndices(std::vector<Index> p_indices)
 {
 	m_indices = p_indices;
 }
+
+std::vector<Vertex> RenderMe::RenderMe3D::Mesh::getVertices() const
+{
+	return m_vertices;
+}
+
+std::vector<Index> RenderMe::RenderMe3D::Mesh::getIndices() const
+{
+	return m_indices;
+}

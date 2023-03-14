@@ -152,6 +152,7 @@
     <ClInclude Include="TexturesManager.h" />
     <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="Uniforms.h" />
+    <ClInclude Include="Vectors.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
