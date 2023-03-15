@@ -3,8 +3,8 @@
 RenderMe Base contains some basic components that are used by the 2D and 3D renderers like TexturesManager, Entity, and Scene...
 
 ## How to use it?
-### Entity 
-an Entity is just an ID (``` std::uint32_t ```) that will be added to a scene so you can attach components to it
+### Entity :
+an Entity is just an ID (```std::uint32_t```) that will be added to a scene so you can attach components to it
  
 To Create an Entity 
 
@@ -19,21 +19,21 @@ RenderMe::Base::Scene scene();
 RenderMe::Entity entity = scene.addEntity();
 ```
 
-### Transform Component 
+### Transform Component :
 
 
 
-### Scene
+### Scene :
 
 Scene stores all the Entities that will be rendered and contains a registry where all Entity components are stored
 
-   the Scene class is in the ``` Scene.h``` header file, so to use it add ``` #include "Scene.h"```
+   the Scene class is in the ```Scene.h``` header file, so to use it add ```#include "Scene.h"```
 
-   #### Create a Scene 
+   #### Create a Scene :
    ```cpp
    RenderMe::Base::Scene scene();
    ```
-   #### Adding And Remove Entities
+   #### Adding And Remove Entities :
 
    To create and add an entity :
    ```cpp
@@ -44,7 +44,7 @@ Scene stores all the Entities that will be rendered and contains a registry wher
    scene.removeEntity(entity);
    ```
 
-   #### Adding and Getting Components 
+   #### Adding and Getting Components :
 
    To add components :
    ```cpp
@@ -60,7 +60,7 @@ Scene stores all the Entities that will be rendered and contains a registry wher
    this will return ```nullptr``` if the component of type ```ExampleComponent``` is not attached to ```entity```
   
 
-### TexturesManager
+### TexturesManager :
 
  To be able to use textures in your application you need to load them using ```RenderMe::Base::TexturesManager ```, every texture has a unique id.
 
@@ -84,7 +84,7 @@ Scene stores all the Entities that will be rendered and contains a registry wher
   ```
   this will return ```RenderMe::Base::Texture``` object.
 
-### ShadersManager
+### ShadersManager :
 
  ```RenderMe::Base::ShadersManager``` is used to compile shaders.
 
