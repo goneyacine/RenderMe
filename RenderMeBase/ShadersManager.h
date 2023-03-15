@@ -32,6 +32,8 @@ namespace RenderMe
 			/// <param name="p_source">the shader source code</param>
 			/// <returns></returns>
 			unsigned int compileShader_by_source(std::string p_shaderName, GLenum p_shaderType, std::string p_source);
+
+			unsigned int getShader(std::string p_shaderName);
 		private:
 			//an unoredered map that assigns shader name (std::string) with it's shader object (or shader id (unsigned int)) and it's type (as GLenumS)
 			//shader objects and types are stored pair, use pair.first to access the shader object, & pair.second to access the type

@@ -135,3 +135,8 @@ unsigned int ShaderManager::compileShader_by_source(std::string p_shaderName, GL
     return shader;
 
 }
+
+unsigned int RenderMe::Base::ShaderManager::getShader(std::string p_shaderName)
+{
+    return m_shaders[p_shaderName].first;
+}
