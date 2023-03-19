@@ -44,10 +44,10 @@ SpriteRenderer::SpriteRenderer(RenderMe::Base::Texture p_texture,float* p_color,
 	:m_texture(p_texture), g_PPU(p_PPU)
 {
 
-	g_color[0] = p_color[0];
-	g_color[1] = p_color[1];
-	g_color[2] = p_color[2];
-	g_color[3] = p_color[3];
+	m_color[0] = p_color[0];
+	m_color[1] = p_color[1];
+	m_color[2] = p_color[2];
+	m_color[3] = p_color[3];
 	
 	m_glProgramID = glCreateProgram();
 
@@ -62,7 +62,7 @@ SpriteRenderer::SpriteRenderer(RenderMe::Base::Texture p_texture,float* p_color,
 
 SpriteRenderer::~SpriteRenderer()
 {
-
+	GL_CALL(glDeleteProgram(m_glProgramID))
 }
 
 void SpriteRenderer::setTexture(RenderMe::Base::Texture p_texture)

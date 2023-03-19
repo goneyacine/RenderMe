@@ -137,11 +137,14 @@
   <ItemGroup>
     <ClInclude Include="..\RenderMeBase\stb_image.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Index.h" />
+    <ClInclude Include="LineRenderer.h" />
     <ClInclude Include="SpriteRenderer.h" />
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="LineRenderer.cpp" />
     <ClCompile Include="SpriteRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>

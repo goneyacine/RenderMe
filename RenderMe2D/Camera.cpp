@@ -8,7 +8,7 @@
 #include "type_ptr.hpp"
 #include "ErrorHandler.h"
 #include "Vertex.h"
-
+#include "LineRenderer.h"
 
 
 using namespace RenderMe::RenderMe2D;
@@ -61,9 +61,8 @@ void Camera::render()
 
 
 	GL_CALL(glClear(GL_COLOR_BUFFER_BIT))  //clearing the frame buffer 
-		
 
-		std::vector<RenderMe::Base::Entity> entities = m_scene->getEntities();
+	std::vector<RenderMe::Base::Entity> entities = m_scene->getEntities();
 
 
 
@@ -78,8 +77,9 @@ void Camera::render()
 
 		TransformComponent* transform = m_scene->getComponent<TransformComponent>(entity);
 		SpriteRenderer* spriteRenderer = m_scene->getComponent<SpriteRenderer>(entity);
+		LineRenderer* lineRenderer = m_scene->getComponent<LineRenderer>(entity);
 
-		if (transform == nullptr || spriteRenderer == nullptr)
+		if ((lineRenderer == nullptr && spriteRenderer == nullptr) || transform == nullptr)
 			continue;
 
 
@@ -87,22 +87,22 @@ void Camera::render()
 		Vertex vertices[4] = {
 			  {
 				 {-0.5f,0.5f},
-				 {spriteRenderer->g_color[0],spriteRenderer->g_color[1],spriteRenderer->g_color[2],spriteRenderer->g_color[3]},
+				 {spriteRenderer->m_color[0],spriteRenderer->m_color[1],spriteRenderer->m_color[2],spriteRenderer->m_color[3]},
 				 {0,1}
 			  },
 			  {
 				 {-0.5f,-0.5f},
-				 {spriteRenderer->g_color[0],spriteRenderer->g_color[1],spriteRenderer->g_color[2],spriteRenderer->g_color[3]},
+				 {spriteRenderer->m_color[0],spriteRenderer->m_color[1],spriteRenderer->m_color[2],spriteRenderer->m_color[3]},
 				 {0,0}
 			  },
 			  {
 				 {0.5f,-0.5f},
-				 {spriteRenderer->g_color[0],spriteRenderer->g_color[1],spriteRenderer->g_color[2],spriteRenderer->g_color[3]},
+				 {spriteRenderer->m_color[0],spriteRenderer->m_color[1],spriteRenderer->m_color[2],spriteRenderer->m_color[3]},
 				 {1,0}
 			  },
 			  {
 				 {0.5f,0.5f},
-				 {spriteRenderer->g_color[0],spriteRenderer->g_color[1],spriteRenderer->g_color[2],spriteRenderer->g_color[3]},
+				 {spriteRenderer->m_color[0],spriteRenderer->m_color[1],spriteRenderer->m_color[2],spriteRenderer->m_color[3]},
 				 {1,1}
 			  }
 		};
@@ -111,7 +111,7 @@ void Camera::render()
 		glm::mat4 mvp = glm::mat4(1);
 
 		mvp = glm::rotate(mvp, (transform->z_rotation - g_angle) * 3.14159265359f / 180, glm::vec3(0, 0, 1));
-		
+
 		mvp = glm::translate(mvp, glm::vec3(transform->x_position - g_x, transform->y_position - g_y, 1));
 
 		mvp = glm::scale(mvp,
@@ -121,17 +121,36 @@ void Camera::render()
 				1)
 		);
 
-		   
+		if (spriteRenderer != nullptr)
+		{
 			GL_CALL(glUseProgram(spriteRenderer->getShaderProgram()))
-			GL_CALL(glUniform1i(glGetUniformLocation(spriteRenderer->getShaderProgram(), "u_texture"), 0))
-			GL_CALL(glBindTexture(GL_TEXTURE_2D, spriteRenderer->getTexture().getOpenGL_ID()))
-     	    GL_CALL(glUniformMatrix4fv(glGetUniformLocation(spriteRenderer->getShaderProgram(), "u_projectionMatrix"), 1, GL_FALSE, glm::value_ptr(projectionMatrix)))
-	    	GL_CALL(glUniformMatrix4fv(glGetUniformLocation(spriteRenderer->getShaderProgram(), "u_mvp"), 1, GL_FALSE, glm::value_ptr(mvp)))
+		    GL_CALL(glUniform1i(glGetUniformLocation(spriteRenderer->getShaderProgram(), "u_texture"), 0))
+		    GL_CALL(glBindTexture(GL_TEXTURE_2D, spriteRenderer->getTexture().getOpenGL_ID()))
+		    GL_CALL(glUniformMatrix4fv(glGetUniformLocation(spriteRenderer->getShaderProgram(), "u_projectionMatrix"), 1, GL_FALSE, glm::value_ptr(projectionMatrix)))
+		    GL_CALL(glUniformMatrix4fv(glGetUniformLocation(spriteRenderer->getShaderProgram(), "u_mvp"), 1, GL_FALSE, glm::value_ptr(mvp)))
+		    
+		    
+		    GL_CALL(glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_DYNAMIC_DRAW))
+				unsigned int indicesData[6] = { 0, 1, 2, 2, 3, 0 };
+			GL_CALL(glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicesData), indicesData, GL_DYNAMIC_DRAW))
+		    GL_CALL(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0))
 
+		}
 
-		GL_CALL(glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_DYNAMIC_DRAW))
-		GL_CALL(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0))
-
+		if (lineRenderer != nullptr)
+		{
+			GL_CALL(glUseProgram(lineRenderer->getShaderProgram()))
+		    //GL_CALL(glUniform1i(glGetUniformLocation(lineRenderer->getShaderProgram(), "u_texture"), 0))
+		    //GL_CALL(glBindTexture(GL_TEXTURE_2D, lineRenderer->g_texture.getOpenGL_ID()))
+		    GL_CALL(glUniformMatrix4fv(glGetUniformLocation(lineRenderer->getShaderProgram(), "u_projectionMatrix"), 1, GL_FALSE, glm::value_ptr(projectionMatrix)))
+		    GL_CALL(glUniformMatrix4fv(glGetUniformLocation(lineRenderer->getShaderProgram(), "u_mvp"), 1, GL_FALSE, glm::value_ptr(mvp)))
+		    
+		    //set vertices data
+		    GL_CALL(glBufferData(GL_ARRAY_BUFFER, lineRenderer->getVertices().size() * sizeof(Vertex), lineRenderer->getVertices().data(), GL_DYNAMIC_DRAW))
+		    //set indices data
+		    GL_CALL(glBufferData(GL_ELEMENT_ARRAY_BUFFER, lineRenderer->getIndices().size() * sizeof(Index), lineRenderer->getIndices().data(), GL_DYNAMIC_DRAW))
+		    GL_CALL(glDrawElements(GL_TRIANGLES, lineRenderer->getIndices().size(), GL_UNSIGNED_INT, 0))
+		}
 	}
 
 
@@ -152,7 +171,7 @@ void Camera::initBuffers()
 	    GL_CALL(glGenBuffers(1, &m_vertexBuffer))
 		GL_CALL(glGenBuffers(1, &m_indexBuffer))
 
-	    unsigned int indicesData[6] = { 0, 1, 2, 2, 3, 0 };
+	    
 
 		//setting vertex attributes
 	    GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer))
@@ -167,7 +186,6 @@ void Camera::initBuffers()
 		GL_CALL(glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, uv)))
 
 		GL_CALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indexBuffer))
-		GL_CALL(glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicesData), indicesData, GL_DYNAMIC_DRAW))
 
 
 }

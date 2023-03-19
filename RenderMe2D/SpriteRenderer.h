@@ -45,7 +45,7 @@ namespace RenderMe
 			
 
 
-			float g_color[4] = {0,0,0,1};
+			float m_color[4] = {0,0,0,1};
 			//PPU stands for pixels per unit
 			unsigned int g_PPU = 100;
 		private : 
