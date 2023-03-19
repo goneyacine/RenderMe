@@ -7,6 +7,7 @@
 #include "Vertex.h"
 #include "ErrorHandler.h"
 #include "MeshRenderer.h"
+#include "LineRenderer.h"
 
 using namespace RenderMe::RenderMe3D;
 
@@ -56,8 +57,9 @@ void Camera::render()
 	{
 		RenderMe::Base::TransformComponent* transform = m_scene->getComponent<RenderMe::Base::TransformComponent>(entity);
 		MeshRenderer* meshRenderer = m_scene->getComponent<MeshRenderer>(entity);
+		LineRenderer* lineRenderer = m_scene->getComponent<LineRenderer>(entity);
 
-		if (meshRenderer == nullptr || transform == nullptr)
+		if ((lineRenderer == nullptr && meshRenderer == nullptr) || transform == nullptr)
 			continue;
 		//model view projection matrix
 		glm::mat4 mvp = glm::mat4(1);
@@ -74,20 +76,38 @@ void Camera::render()
 
 		mvp = glm::scale(mvp, glm::vec3(transform->x_scale, transform->y_scale, transform->z_scale));
 
+		//draw mesh renderer on the screen if it exists
+		if (meshRenderer != nullptr)
+		{
+			GL_CALL(glUseProgram(meshRenderer->getShaderProgram()))
+			GL_CALL(glUniform1i(glGetUniformLocation(meshRenderer->getShaderProgram(), "u_texture"), 0))
+			GL_CALL(glBindTexture(GL_TEXTURE_2D, meshRenderer->g_texture.getOpenGL_ID()))
+			GL_CALL(glUniformMatrix4fv(glGetUniformLocation(meshRenderer->getShaderProgram(), "u_projectionMatrix"), 1, GL_FALSE, glm::value_ptr(projectionViewMatrix)))
+			GL_CALL(glUniformMatrix4fv(glGetUniformLocation(meshRenderer->getShaderProgram(), "u_mvp"), 1, GL_FALSE, glm::value_ptr(mvp)))
 
-		
-		GL_CALL(glUseProgram(meshRenderer->getShaderProgram()))
-		GL_CALL(glUniform1i(glGetUniformLocation(meshRenderer->getShaderProgram(), "u_texture"), 0))
-		GL_CALL(glBindTexture(GL_TEXTURE_2D, meshRenderer->g_texture.getOpenGL_ID()))
-		GL_CALL(glUniformMatrix4fv(glGetUniformLocation(meshRenderer->getShaderProgram(), "u_projectionMatrix"), 1, GL_FALSE, glm::value_ptr(projectionViewMatrix)))
-		GL_CALL(glUniformMatrix4fv(glGetUniformLocation(meshRenderer->getShaderProgram(), "u_mvp"), 1, GL_FALSE, glm::value_ptr(mvp)))
-		
-		//set vertices data
-		GL_CALL(glBufferData(GL_ARRAY_BUFFER, meshRenderer->g_mesh.getVertices().size() * sizeof(Vertex),meshRenderer->g_mesh.getVertices().data(), GL_DYNAMIC_DRAW))
-		//set indices data
-		GL_CALL(glBufferData(GL_ELEMENT_ARRAY_BUFFER, meshRenderer->g_mesh.getIndices().size() * sizeof(Index),meshRenderer->g_mesh.getIndices().data(), GL_DYNAMIC_DRAW))
-		GL_CALL(glDrawElements(GL_TRIANGLES, meshRenderer->g_mesh.getIndices().size(), GL_UNSIGNED_INT, 0))
+			//set vertices data
+			GL_CALL(glBufferData(GL_ARRAY_BUFFER, meshRenderer->g_mesh.getVertices().size() * sizeof(Vertex), meshRenderer->g_mesh.getVertices().data(), GL_DYNAMIC_DRAW))
+			//set indices data
+			GL_CALL(glBufferData(GL_ELEMENT_ARRAY_BUFFER, meshRenderer->g_mesh.getIndices().size() * sizeof(Index), meshRenderer->g_mesh.getIndices().data(), GL_DYNAMIC_DRAW))
+			GL_CALL(glDrawElements(GL_TRIANGLES, meshRenderer->g_mesh.getIndices().size(), GL_UNSIGNED_INT, 0))
+		}
+		//draw line renderer on the screen if it exists
+		if (lineRenderer != nullptr)
+		{
+			GL_CALL(glUseProgram(lineRenderer->getShaderProgram()))
+			//GL_CALL(glUniform1i(glGetUniformLocation(lineRenderer->getShaderProgram(), "u_texture"), 0))
+			//GL_CALL(glBindTexture(GL_TEXTURE_2D, lineRenderer->g_texture.getOpenGL_ID()))
+			GL_CALL(glUniformMatrix4fv(glGetUniformLocation(lineRenderer->getShaderProgram(), "u_projectionMatrix"), 1, GL_FALSE, glm::value_ptr(projectionViewMatrix)))
+			GL_CALL(glUniformMatrix4fv(glGetUniformLocation(lineRenderer->getShaderProgram(), "u_mvp"), 1, GL_FALSE, glm::value_ptr(mvp)))
 
+			//set vertices data
+			GL_CALL(glBufferData(GL_ARRAY_BUFFER, lineRenderer->getVertices().size() * sizeof(Vertex), lineRenderer->getVertices().data(), GL_DYNAMIC_DRAW))
+			//set indices data
+			GL_CALL(glBufferData(GL_ELEMENT_ARRAY_BUFFER, lineRenderer->getIndices().size() * sizeof(Index), lineRenderer->getIndices().data(), GL_DYNAMIC_DRAW))
+			GL_CALL(glDrawElements(GL_TRIANGLES, lineRenderer->getIndices().size(), GL_UNSIGNED_INT, 0))
+		}
+		//unbind shader programm
+		glUseProgram(0);
 	}
 	glBindTexture(GL_TEXTURE_2D, 0);
 

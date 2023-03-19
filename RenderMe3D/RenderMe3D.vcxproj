@@ -140,6 +140,7 @@
   <ItemGroup>
     <ClCompile Include="..\RenderMeBase\stb_image.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="LineRenderer.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshManager.cpp" />
     <ClCompile Include="MeshRenderer.cpp" />
@@ -148,6 +149,7 @@
     <ClInclude Include="..\RenderMeBase\stb_image.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Index.h" />
+    <ClInclude Include="LineRenderer.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshManager.h" />
     <ClInclude Include="MeshRenderer.h" />
